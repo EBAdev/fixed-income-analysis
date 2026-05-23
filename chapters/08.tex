@@ -24,10 +24,10 @@ $$
 Suppose the current forward rates $T \mapsto f_{0}^{T}$ are observed. For each $T$, we model the dynamics of $f_{t}^{T}$ as
 
 $$
-\mathrm{d} f_{t}^{T}=\alpha\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} t+\sum_{i=1}^{n} \beta_{i}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} z_{i t}, \quad 0 \leq t \leq T
+\d  f_{t}^{T}=\alpha\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  t+\sum_{i=1}^{n} \beta_{i}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  z_{i t}, \quad 0 \leq t \leq T
 $$
 
-where $z_{1}, \ldots, z_{n}$ are independent $\mathbb{P}$-BMs.
+where $z_{1}, \ldots, z_{n}$ are independent $\P$-BMs.
 
 \begin{itemize}
   \item The current yield curve is matched since we observe $T \mapsto f_{0}^{T}$.
@@ -39,18 +39,18 @@ $-r_{t}=f_{t}^{t}$
 \end{itemize}
 
 \subsection{Zero-coupon bond price}
-The price $B_{t}^{T}$ under $\mathbb{P}$ of a zero-coupon bond price maturing at time $T$ satisfies
+The price $B_{t}^{T}$ under $\P$ of a zero-coupon bond price maturing at time $T$ satisfies
 
 $$
-\mathrm{d} B_{t}^{T}=B_{t}^{T}\left(\mu^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} t+\sum_{i=1}^{n} \sigma_{i}^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} z_{i t}\right)
+\d  B_{t}^{T}=B_{t}^{T}\left(\mu^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  t+\sum_{i=1}^{n} \sigma_{i}^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  z_{i t}\right)
 $$
 
 where
 
 $$
 \begin{aligned}
-\mu^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) & =r_{t}-\int_{t}^{T} \alpha\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u+\frac{1}{2} \sum_{i=1}^{n}\left(\sigma_{i}^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right)\right)^{2} \\
-\sigma_{i}^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) & =-\int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u
+\mu^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) & =r_{t}-\int_{t}^{T} \alpha\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u+\frac{1}{2} \sum_{i=1}^{n}\left(\sigma_{i}^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right)\right)^{2} \\
+\sigma_{i}^{T}\left(t,\left(f_{t}^{s}\right)_{s \geq t}\right) & =-\int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u
 \end{aligned}
 $$
 
@@ -58,56 +58,56 @@ Proof. Consider the case of $n=1$. Then (suppress dependency on $\left(f_{t}^{s}
 
 $$
 \begin{aligned}
-\mathrm{d} f_{t}^{T} & =\alpha\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} t+\beta\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} z_{t} \\
-& =\alpha(t, T) \mathrm{d} t+\beta(t, T) \mathrm{d} z_{t}
+\d  f_{t}^{T} & =\alpha\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  t+\beta\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  z_{t} \\
+& =\alpha(t, T) \d  t+\beta(t, T) \d  z_{t}
 \end{aligned}
 $$
 
 Denote
 
 $$
-Y_{t}=\int_{t}^{T} f_{t}^{s} \mathrm{~d} s
+Y_{t}=\int_{t}^{T} f_{t}^{s} \d  s
 $$
 
 Using Leibnitz' rule on $Y_{t}$ we have
 
 $$
-\mathrm{d} Y_{t}=\left(-r_{t}+\int_{t}^{T} \alpha(t, u) \mathrm{d} u\right) \mathrm{d} t+\left(\int_{t}^{T} \beta(t, u) \mathrm{d} u\right) \mathrm{d} z_{t}
+\d  Y_{t}=\left(-r_{t}+\int_{t}^{T} \alpha(t, u) \d  u\right) \d  t+\left(\int_{t}^{T} \beta(t, u) \d  u\right) \d  z_{t}
 $$
 
 By using Itô's Lemma on
 
 $$
-B_{t}^{T}=\mathrm{e}^{-\int_{t}^{T} f_{t}^{s} \mathrm{~d} s}=\mathrm{e}^{-Y_{t}}=g\left(Y_{t}\right), \quad\left(g^{\prime}\left(Y_{t}\right)=-\mathrm{e}^{-Y_{t}}, \quad g^{\prime \prime}\left(Y_{t}\right)=\mathrm{e}^{-Y_{t}}\right)
+B_{t}^{T}=\e^{-\int_{t}^{T} f_{t}^{s} \d  s}=\e^{-Y_{t}}=g\left(Y_{t}\right), \quad\left(g^{\prime}\left(Y_{t}\right)=-\e^{-Y_{t}}, \quad g^{\prime \prime}\left(Y_{t}\right)=\e^{-Y_{t}}\right)
 $$
 
 we find
 
 $$
 \begin{aligned}
-\mathrm{d} B_{t}^{T} & =-\mathrm{e}^{-Y_{t}} \mathrm{~d} Y_{t}+\frac{1}{2} \mathrm{e}^{-Y_{t}}\left(\mathrm{~d} Y_{t}\right)^{2} \\
-& =-\mathrm{e}^{-Y_{t}}\left(\left(-r_{t}+\int_{t}^{T} \alpha(t, u) \mathrm{d} u\right) \mathrm{d} t+\left(\int_{t}^{T} \beta(t, u) \mathrm{d} u\right) \mathrm{d} z_{t}\right)+\frac{1}{2} \mathrm{e}^{-Y_{t}}\left(\int_{t}^{T} \beta(t, u) \mathrm{d} u\right)^{2} \mathrm{~d} t \\
-& =B_{t}^{T}\left(r_{t}-\int_{t}^{T} \alpha(t, u) \mathrm{d} u+\frac{1}{2}\left(\int_{t}^{T} \beta(t, u) \mathrm{d} u\right)^{2}\right) \mathrm{d} t-B_{t}^{T}\left(\int_{t}^{T} \beta(t, u) \mathrm{d} u\right) \mathrm{d} z_{t}
+\d  B_{t}^{T} & =-\e^{-Y_{t}} \d  Y_{t}+\frac{1}{2} \e^{-Y_{t}}\left(\d  Y_{t}\right)^{2} \\
+& =-\e^{-Y_{t}}\left(\left(-r_{t}+\int_{t}^{T} \alpha(t, u) \d  u\right) \d  t+\left(\int_{t}^{T} \beta(t, u) \d  u\right) \d  z_{t}\right)+\frac{1}{2} \e^{-Y_{t}}\left(\int_{t}^{T} \beta(t, u) \d  u\right)^{2} \d  t \\
+& =B_{t}^{T}\left(r_{t}-\int_{t}^{T} \alpha(t, u) \d  u+\frac{1}{2}\left(\int_{t}^{T} \beta(t, u) \d  u\right)^{2}\right) \d  t-B_{t}^{T}\left(\int_{t}^{T} \beta(t, u) \d  u\right) \d  z_{t}
 \end{aligned}
 $$
 
 \subsection{HJM drift restriction}
-Proceeding as in the proof above, we find that the drift rate of the zero-coupon bond under $\mathbb{Q}$ is
+Proceeding as in the proof above, we find that the drift rate of the zero-coupon bond under $\Q$ is
 
 $$
-r_{t}-\int_{t}^{T} \hat{\alpha}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u+\frac{1}{2} \sum_{i=1}^{n}\left(\int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u\right)^{2}
+r_{t}-\int_{t}^{T} \hat{\alpha}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u+\frac{1}{2} \sum_{i=1}^{n}\left(\int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u\right)^{2}
 $$
 
 Meaning the drift must equal $r_{t}$ in the absence of arbitrage. Therefore
 
 $$
-\int_{t}^{T} \hat{\alpha}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u=\frac{1}{2} \sum_{i=1}^{n}\left(\int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u\right)^{2}
+\int_{t}^{T} \hat{\alpha}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u=\frac{1}{2} \sum_{i=1}^{n}\left(\int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u\right)^{2}
 $$
 
 Differentiating w.r.t. $T$ gives the HJM drift restriction
 
 $$
-\hat{\alpha}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right)=\sum_{i=1}^{n} \beta_{i}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} u
+\hat{\alpha}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right)=\sum_{i=1}^{n} \beta_{i}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \int_{t}^{T} \beta_{i}\left(t, u,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  u
 $$
 
 This is a beautiful result, because as $\beta_{i}$ can be estimated by data so can $\hat{\alpha}$.
@@ -116,19 +116,19 @@ This is a beautiful result, because as $\beta_{i}$ can be estimated by data so c
 Leibnitz' rule: For any $s \in[1, T]$, let the dynamics of $\left(f_{t}^{s}\right)_{s \in[0, s]}$ be given by
 
 $$
-\mathrm{d} f_{t}^{s}=\alpha_{t}^{s} \mathrm{~d} t+\beta_{t}^{s} \mathrm{~d} z_{t}
+\d  f_{t}^{s}=\alpha_{t}^{s} \d  t+\beta_{t}^{s} \d  z_{t}
 $$
 
-Let's define $Y_{t}=\int_{t}^{T} f_{t}^{s} \mathrm{~d} s$. Then
+Let's define $Y_{t}=\int_{t}^{T} f_{t}^{s} \d  s$. Then
 
 $$
-\mathrm{d} Y_{t}=\left(\int_{t}^{T} \alpha_{t}^{s} \mathrm{~d} s-f_{t}^{t}\right) \mathrm{d} t+\left(\int_{t}^{T} \beta_{t}^{s} \mathrm{~d} s\right) \mathrm{d} z_{t}
+\d  Y_{t}=\left(\int_{t}^{T} \alpha_{t}^{s} \d  s-f_{t}^{t}\right) \d  t+\left(\int_{t}^{T} \beta_{t}^{s} \d  s\right) \d  z_{t}
 $$
 
-Forward rate dynamics under $\mathbb{Q}$ : Given the market price of risk $\lambda=\left(\lambda_{1}, \ldots, \lambda_{n}\right)^{T}$, Girsanov's Theorem states that $\mathrm{d} z_{i t}^{\mathbb{Q}}+\lambda_{i t} \mathrm{~d} t$ is a Wiener process under $\mathbb{Q}$, hence
+Forward rate dynamics under $\Q$ : Given the market price of risk $\lambda=\left(\lambda_{1}, \ldots, \lambda_{n}\right)^{T}$, Girsanov's Theorem states that $\d  z_{i t}^{\Q}+\lambda_{i t} \d  t$ is a Wiener process under $\Q$, hence
 
 $$
-\mathrm{d} f_{t}^{T}=\hat{\alpha}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} t+\sum_{i=1}^{n} \beta_{i}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \mathrm{d} z_{i t}^{\mathrm{Q}}, \quad 0 \leq t \leq T,
+\d  f_{t}^{T}=\hat{\alpha}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  t+\sum_{i=1}^{n} \beta_{i}\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right) \d  z_{i t}^{\Q}, \quad 0 \leq t \leq T,
 $$
 
 where
@@ -140,16 +140,16 @@ $$
 Procedure for using HJM models: ( $\mathrm{n}=1$ for simplicity). Pick some $\beta(t, T)$ (short form of $\left.\beta\left(t, u\left(f_{t}^{s}\right)_{s \geq t}\right)\right)$. The drift is given by
 
 $$
-\hat{\alpha}(t, T)=\beta(t, T) \int_{t}^{T} \beta(t, u) \mathrm{d} u
+\hat{\alpha}(t, T)=\beta(t, T) \int_{t}^{T} \beta(t, u) \d  u
 $$
 
 Observe current forward rate $T \mapsto f(0, T)$ from the market. Then, forward rates are given by
 
 $$
-f(t, T)=f(0, T)+\int_{0}^{t} \hat{\alpha}(u, T) \mathrm{d} u+\int_{0}^{T} \beta(u, T) \mathrm{d} z_{u}^{\mathrm{Q}}
+f(t, T)=f(0, T)+\int_{0}^{t} \hat{\alpha}(u, T) \d  u+\int_{0}^{T} \beta(u, T) \d  z_{u}^{\Q}
 $$
 
-We can find bond prices by $B_{t}^{T}=\mathrm{e}^{-\int_{t}^{T} f_{t}^{s} \mathrm{~d} s}$. Given $B_{t}^{T}$ and $f_{t}^{T}$ we may find other derivative prices. Note, we do not need to specify drift.
+We can find bond prices by $B_{t}^{T}=\e^{-\int_{t}^{T} f_{t}^{s} \d  s}$. Given $B_{t}^{T}$ and $f_{t}^{T}$ we may find other derivative prices. Note, we do not need to specify drift.
 
 The Ho-Lee model: (extended Merton). A one-factor model with $\beta\left(t, T,\left(f_{t}^{s}\right)_{s \geq t}\right)= \beta>0$. The HJM drift restriction is
 
@@ -160,13 +160,13 @@ $$
 $T$-forward rates
 
 $$
-f_{t}^{T}=f_{0}^{T}+\int_{0}^{t} \beta^{2}(T-u) \mathrm{d} u+\int_{0}^{t} \beta \mathrm{~d} z_{u}^{\mathbb{Q}}
+f_{t}^{T}=f_{0}^{T}+\int_{0}^{t} \beta^{2}(T-u) \d  u+\int_{0}^{t} \beta \d  z_{u}^{\Q}
 $$
 
 For $T=t$ we have
 
 $$
-r_{t}=f_{t}^{t}=f_{0}^{t}+\frac{1}{2} \beta^{2} t^{2}+\int_{0}^{t} \beta \mathrm{~d} z_{u}^{\mathrm{Q}}, \quad \Longrightarrow \quad \mathrm{~d} r_{t}=\hat{\varphi}(t) \mathrm{d} t+\beta \mathrm{d} z_{t}^{\mathrm{Q}}
+r_{t}=f_{t}^{t}=f_{0}^{t}+\frac{1}{2} \beta^{2} t^{2}+\int_{0}^{t} \beta \d  z_{u}^{\Q}, \quad \Longrightarrow \quad \d  r_{t}=\hat{\varphi}(t) \d  t+\beta \d  z_{t}^{\Q}
 $$
 
 with $\hat{\varphi}(t)=\frac{\partial f_{0}^{t}}{\partial t}+\beta^{2} t$.\\

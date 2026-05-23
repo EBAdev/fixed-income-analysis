@@ -23,10 +23,10 @@ $-\beta_{2}$ affects medium term rates since $\frac{1-\mathrm{e}^{\lambda \tau}}
 $-\lambda$ is a scaling factor that affects the exponential decay rate.
 
 \section{AFNS model}
-The $\mathbb{Q}$-dynamics of the state variable $X_{t}$ is 3 -factor Gaussian
+The $\Q$-dynamics of the state variable $X_{t}$ is 3 -factor Gaussian
 
 $$
-\mathrm{d} X_{t}=\kappa^{\mathbb{Q}}\left(\theta^{\mathbb{Q}}-X_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} W_{t}^{\mathbb{Q}} .
+\d  X_{t}=\kappa^{\Q}\left(\theta^{\Q}-X_{t}\right) \d  t+\Sigma \d  W_{t}^{\Q} .
 $$
 
 We assume that $r_{t}=\rho_{0}+\rho_{1}^{\prime} X_{t}$. The yield curve is given by
@@ -38,7 +38,7 @@ $$
 where the simplified ODE of $b=\left(b_{1}, b_{2}, b_{3}\right)$ is
 
 $$
-b^{\prime}(\tau)=-\left(\kappa^{\mathbb{Q}}\right)^{\prime} b(\tau)+\rho_{1}, \quad b(0)=0
+b^{\prime}(\tau)=-\left(\kappa^{\Q}\right)^{\prime} b(\tau)+\rho_{1}, \quad b(0)=0
 $$
 
 (the last term disappears since we have constant covariance matrix)\\
@@ -46,25 +46,25 @@ Theorem (main result for AFNS models). Let $\lambda>0, r_{t}=X_{t}^{1}+X_{t}^{2}
 
 $$
 \left(\begin{array}{l}
-\mathrm{d} X_{t}^{1} \\
-\mathrm{~d} X_{t}^{2} \\
-\mathrm{~d} X_{t}^{3}
+\d  X_{t}^{1} \\
+\d  X_{t}^{2} \\
+\d  X_{t}^{3}
 \end{array}\right)=\left(\begin{array}{ccc}
 0 & 0 & 0 \\
 0 & \lambda & -\lambda \\
 0 & 0 & \lambda
 \end{array}\right)\left[\left(\begin{array}{c}
-\theta_{1}^{\mathrm{Q}} \\
-\theta_{2}^{\mathrm{Q}} \\
-\theta_{3}^{\mathrm{Q}}
+\theta_{1}^{\Q} \\
+\theta_{2}^{\Q} \\
+\theta_{3}^{\Q}
 \end{array}\right)-\left(\begin{array}{c}
 X_{t}^{1} \\
 X_{t}^{2} \\
 X_{t}^{3}
-\end{array}\right)\right] \mathrm{d} t+\Sigma\left(\begin{array}{l}
-\mathrm{d} W_{t}^{1, \mathrm{Q}} \\
-\mathrm{~d} W_{t}^{2, \mathrm{Q}} \\
-\mathrm{~d} W_{t}^{3, \mathrm{Q}}
+\end{array}\right)\right] \d  t+\Sigma\left(\begin{array}{l}
+\d  W_{t}^{1, \Q} \\
+\d  W_{t}^{2, \Q} \\
+\d  W_{t}^{3, \Q}
 \end{array}\right) .
 $$
 
@@ -75,7 +75,7 @@ y_{t}(\tau)=X_{t}^{1}+\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau} X_{t}^{2
 $$
 
 where $A$ is the solution of a certain ODE.\\
-Proof. The ODE $b^{\prime}(\tau)=-\left(\kappa^{\mathbb{Q}}\right)^{\prime} b(\tau)+\rho_{1}$ (here $\rho_{1}=(1,1,0)^{\prime}$ ) is equivalent to
+Proof. The ODE $b^{\prime}(\tau)=-\left(\kappa^{\Q}\right)^{\prime} b(\tau)+\rho_{1}$ (here $\rho_{1}=(1,1,0)^{\prime}$ ) is equivalent to
 
 $$
 \begin{aligned}
@@ -99,13 +99,13 @@ $$
 
 Will skip the last factor (yield-adjustment term), but it is computed by plugging $b_{1}, b_{2}, b_{3}$ into the multifactor Ricatti ODE for $A$ and integrating.
 
-The above only considers the $\mathbb{Q}$-dynamics of $X_{t}$. For the $\mathbb{P}$-dynamics we use the essentially affine models from Duffee. In the Gaussian case we have $\lambda_{t}=\lambda_{1}+\lambda_{2} X_{t}$, so the $\mathbb{P}$-dynamics become
+The above only considers the $\Q$-dynamics of $X_{t}$. For the $\P$-dynamics we use the essentially affine models from Duffee. In the Gaussian case we have $\lambda_{t}=\lambda_{1}+\lambda_{2} X_{t}$, so the $\P$-dynamics become
 
 $$
-\mathrm{d} X_{t}=\kappa^{\mathbb{P}}\left(\theta^{\mathbb{P}}-X_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} W_{t}^{\mathbb{P}}
+\d  X_{t}=\kappa^{\P}\left(\theta^{\P}-X_{t}\right) \d  t+\Sigma \d  W_{t}^{\P}
 $$
 
-Although the $\mathbb{Q}$-dynamics was restricted (e.g. zero terms in $\kappa^{\mathrm{Q}}$ ) we can choose ( $\lambda_{1}, \lambda_{2}$ ) appropriately to get any $\kappa^{\mathbb{P}}$ and $\theta^{\mathbb{P}}$.
+Although the $\Q$-dynamics was restricted (e.g. zero terms in $\kappa^{\Q}$ ) we can choose ( $\lambda_{1}, \lambda_{2}$ ) appropriately to get any $\kappa^{\P}$ and $\theta^{\P}$.
 
 \subsection{Additional stuff}
 \section{Dynamic NS:}

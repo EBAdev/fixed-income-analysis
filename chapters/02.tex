@@ -3,13 +3,13 @@ All one-factor models assume that the short rate is the only state variable. Tha
 all relevant information about the term structure. Assume the short rate follows a diffusion
 process
 \[
-\mathrm{d} r_{t}=\alpha\left(r_{t}\right) \mathrm{d} t+\beta\left(r_{t}\right) \mathrm{d} z_{t}
+\d  r_{t}=\alpha\left(r_{t}\right) \d  t+\beta\left(r_{t}\right) \d  z_{t}
 \]
 where $\left(z_{t}\right)_{t \geq 0}$ is a one-dimensional standard Brownian motion (under the
-real-world measure $\mathbb{P}$). The short rate dynamics under the risk-neutral measure
-$\mathbb{Q}$ is
+real-world measure $\P$). The short rate dynamics under the risk-neutral measure
+$\Q$ is
 \[
-\mathrm{d} r_{t}=\hat{\alpha}\left(r_{t}\right) \mathrm{d} t+\beta\left(r_{t}\right) \mathrm{d} z_{t}^{\mathbb{Q}}
+\d  r_{t}=\hat{\alpha}\left(r_{t}\right) \d  t+\beta\left(r_{t}\right) \d  z_{t}^{\Q}
 \]
 where $\hat{\alpha}\left(r_{t}\right)=\alpha\left(r_{t}\right)-\beta\left(r_{t}\right)
 \lambda\left(r_{t}\right)$, and where $\lambda$ is the market price of risk (risk premium per unit
@@ -31,7 +31,7 @@ $\beta^{2}$ are linear in $r$ we can split the PDE into two ODEs.
 \begin{theorem*}[7.1 (Zero-Coupon Bond Prices)]
 In an affine model, zero-coupon bond prices are given by
 \[
-B_{t}^{T}=B^{T}(r, t)=\mathrm{e}^{-a(T-t)-b(T-t) r}
+B_{t}^{T}=B^{T}(r, t)=\e^{-a(T-t)-b(T-t) r}
 ,\]
 where the functions $a(\tau)$ and $b(\tau)$ solve $a(0)=b(0)=0$ and
 \begin{align}
@@ -45,9 +45,9 @@ a^{\prime}(\tau)-\hat{\varphi} b(\tau)+\frac{1}{2} \delta_{1} b(\tau)^{2} & =0, 
 explicitly.}
 \end{theorem*}
 \begin{proof}
- We will prove that the candidate for a solution is in fact a solution and then use the uniqueness
+ We prove that the candidate for a solution, is a solution and then use the uniqueness
  of a solution for a PDE. Thus, we show that $B^{T}(r, t)$ solves the fundamental PDE ($\mathcal{S}$
- is value space of $r$)
+ is state space of $r$)
 \begin{align}
 \frac{\partial B^{T}(r, t)}{\partial t}
 +\hat{\alpha}(r) \frac{\partial B^{T}(r, t)}{\partial r}
@@ -58,7 +58,7 @@ B^{T}(r, T) & =1, \quad(r, t) \in \mathcal{S} \times[0, T] \notag
 .\end{align}
 The terminal condition is obviously satisfied since
 \[
-B^{T}(r, T)=\mathrm{e}^{-a(0)-b(0) r}=1
+B^{T}(r, T)=\e^{-a(0)-b(0) r}=1
 \]
 Next, we find the derivatives
 \begin{align*}
@@ -72,9 +72,11 @@ a^{\prime}(T-t)+b^{\prime}(T-t) r-\hat{\alpha}(r) b(T-t)+\frac{1}{2} \beta(r)^{2
 \]
 Using \Cref{eq:02-affine} and gathering terms we find
 \begin{align*}
-& a^{\prime}(T-t)+b^{\prime}(T-t) r-(\hat{\varphi}-\hat{\kappa} r) b(T-t)+\frac{1}{2}\left(\delta_{1}+\delta_{2} r\right) b(T-t)^{2}-r=0 \\
-& \implies \quad  a^{\prime}(T-t)-\hat{\varphi} b(T-t)+\frac{1}{2} \delta_{1}
-b(T-t)^{2}+\left(b^{\prime}(T-t)+\hat{\kappa} b(T-t)+\frac{1}{2} \delta_{2} b(T-t)^{2}-1\right)
+& a^{\prime}(T-t)+b^{\prime}(T-t) r-(\hat{\varphi}-\hat{\kappa} r) b(T-t)
++\frac{1}{2}\left(\delta_{1}+\delta_{2} r\right) b(T-t)^{2}-r=0 \\
+& \implies \quad  
+a^{\prime}(T-t)-\hat{\varphi} b(T-t)+\frac{1}{2} \delta_{1} b(T-t)^{2}
++\left(b^{\prime}(T-t)+\hat{\kappa} b(T-t)+\frac{1}{2} \delta_{2} b(T-t)^{2}-1\right)
 r=0,
 \end{align*}
 for all $(r, t) \in \mathcal{S} \times[0, T]$.
@@ -87,13 +89,13 @@ Inserting $\tau=T-t$ we observe that the above holds when \Cref{eq:02-ricatti} h
 In Varsicek's model we assume that the short rate $r_{t}$ is driven by an Ornstein-Uhlenbeck process
 under $\P$:
 \[
-\mathrm{d} r_{t}=\kappa\left(\theta-r_{t}\right) \mathrm{d} t+\beta \mathrm{d} z_{t}
+\d r_{t}=\kappa\left(\theta-r_{t}\right) \d t+\beta \d z_{t}
 \]
 where $\kappa, \theta$ and $\beta$ are positive constants. Given the market price of risk
 $\lambda(r, t)$, the $\Q$-dynamics are
 \[
-\mathrm{d} r_{t}=\left[\kappa\left(\theta-r_{t}\right)-\beta \lambda(r, t)\right] \mathrm{d} t+\beta
-\mathrm{d} z_{t}^{\Q}=\kappa\left(\hat{\theta}-r_{t}\right) \mathrm{d} t+\beta \mathrm{d}
+\d  r_{t}=\left[\kappa\left(\theta-r_{t}\right)-\beta \lambda(r, t)\right] \d t+\beta
+\d  z_{t}^{\Q}=\kappa\left(\hat{\theta}-r_{t}\right) \d t+\beta \d 
 z_{t}^{\Q}
 \]
 Assuming $\lambda(r, t)=\lambda$, i.e. constant market price of risk, we have
@@ -107,16 +109,18 @@ probability, which is often regarded as a drawback of the model.
 The model furthermore assumes constant volatility. It is an affine term structure model with
 parameters
 \[
-\hat{\varphi}=\kappa \hat{\theta}, \qquad \hat{\kappa}=\kappa, \qquad
+\hat{\varphi}=\kappa \hat{\theta}, \quad \hat{\kappa}=\kappa, \quad
 \delta_1=\beta^2, \qquad \delta_2=0,
 \]
 and therefore the price of a zero-coupon bond is given by
 \[
-B^{T}(r, t)=\mathrm{e}^{-a(T-t)-b(T-t) r},
+B^{T}(r, t)=\e^{-a(T-t)-b(T-t) r},
 \]
 where the equations in \Cref{eq:02-ricatti} can be solved to:
 \[
-b(\tau)=\frac{1}{\kappa}\left(1-\mathrm{e}^{-\kappa \tau}\right) \quad \text { and } \quad a(\tau)=\left(\hat{\theta}-\frac{\beta^{2}}{2 \kappa^{2}}\right)(\tau-b(\tau))+\frac{\beta^{2}}{4 \kappa} b(\tau)^{2}
+b(\tau)=\frac{1}{\kappa}\left(1-\e^{-\kappa \tau}\right) \quad \text { and } \quad
+a(\tau)=\left(\hat{\theta}-\frac{\beta^{2}}{2 \kappa^{2}}\right)(\tau-b(\tau))
++\frac{\beta^{2}}{4\kappa} b(\tau)^{2}
 \]
 
 \subsection{Relevant results}
@@ -141,7 +145,7 @@ t)}=a^{\prime}(T-t)+b^{\prime}(T-t) r
 \end{description}
 Market price of risk is $\frac{\lambda \sqrt{r}}{\beta}$, $\Q$-dynamics is square root proces
 \[
-\mathrm{d} r_{t}=\hat{\kappa}\left(\hat{\theta}-r_{t}\right) \mathrm{d} t+\beta \sqrt{r_{t}} \mathrm{~d} z_{t}^{\Q}
+\d  r_{t}=\hat{\kappa}\left(\hat{\theta}-r_{t}\right) \d  t+\beta \sqrt{r_{t}} \d  z_{t}^{\Q}
 \]
 Mean reverting (around $\hat{\theta}$). Non-negative interest rates, 0 is reflecting barrier. Affine
 with $\hat{\varphi}=\hat{\kappa} \hat{\theta}, \hat{\kappa}=\hat{\kappa}, \delta_{1}=0$ and
@@ -159,6 +163,6 @@ allow for more flexibility. Still affine. Same way of thinking can be used for C
 \end{description}
 
 \begin{itemize}
-  \item Quadratic models: Dynamics $r_{t}=x_{t}^{2}$ ( $x_{t}$ Ornstein-Uhlenbeck process). $a$ and $b$ as in affine case. 0 is refelcting barrier (disadvantage). $B^{T}(x, t)= \mathrm{e}^{-a(T-t)-b(T-t) x-c(T-t) x^{2}}$. Complicated closed form expressions for prices of derivatives.
+  \item Quadratic models: Dynamics $r_{t}=x_{t}^{2}$ ($x_{t}$ Ornstein-Uhlenbeck process). $a$ and $b$ as in affine case. 0 is refelcting barrier (disadvantage). $B^{T}(x, t)= \e^{-a(T-t)-b(T-t) x-c(T-t) x^{2}}$. Complicated closed form expressions for prices of derivatives.
   \item Shadow-rate models: Dynamics $r_{t}=\max \left\{0, x_{t}\right\}, x_{t}$ OU process. Only nonnegative values. 0 is absorbing barrier (occurs in practice). Bond and derivative prices computed numerically.
 \end{itemize}

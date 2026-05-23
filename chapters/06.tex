@@ -7,13 +7,13 @@ KS, Journal of Econometrics: "Term structure models and the zero-lower bound: An
 Under no arbitrage, the price of a $\tau$-year zero-coupon bond is
 
 $$
-P_{\tau}\left(x_{t}\right)=\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{t+\tau} r\left(x_{s}\right) \mathrm{d} s}\right]
+P_{\tau}\left(x_{t}\right)=\E_{t}^{\Q}\left[\e^{-\int_{t}^{t+\tau} r\left(x_{s}\right) \d  s}\right]
 $$
 
 The dynamics of the state variable are
 
 $$
-\mathrm{d} x_{t}=\mu^{\mathbb{Q}}\left(x_{t}\right) \mathrm{d} t+\Sigma\left(x_{t}\right) \mathrm{d} B_{t}^{\mathbb{Q}}=\left(\mu^{\mathbb{Q}}\left(x_{t}\right)+\Sigma\left(x_{t}\right) \lambda\left(x_{t}\right)\right) \mathrm{d} t+\Sigma\left(x_{t}\right) \mathrm{d} B_{t}^{\mathbb{P}}
+\d  x_{t}=\mu^{\Q}\left(x_{t}\right) \d  t+\Sigma\left(x_{t}\right) \d  B_{t}^{\Q}=\left(\mu^{\Q}\left(x_{t}\right)+\Sigma\left(x_{t}\right) \lambda\left(x_{t}\right)\right) \d  t+\Sigma\left(x_{t}\right) \d  B_{t}^{\P}
 $$
 
 The instantaneous yield volatility is
@@ -34,12 +34,12 @@ The 2 -factor quadratic-Gaussian model is given by
 $$
 \begin{aligned}
 r_{t} & =x_{t}^{\prime} \Phi x_{t} \\
-\mathrm{~d} x_{t} & =\kappa^{\mathrm{Q}}\left(\theta^{\mathrm{Q}}-x_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} B_{t}^{\mathrm{Q}} \\
+\d  x_{t} & =\kappa^{\Q}\left(\theta^{\Q}-x_{t}\right) \d  t+\Sigma \d  B_{t}^{\Q} \\
 \lambda_{t} & =\lambda_{a}+\Lambda_{b} x_{t}
 \end{aligned}
 $$
 
-where $\Phi, \kappa^{\mathrm{Q}}, \Sigma, \Lambda_{b}$ are $2 \times 2$ and $\theta^{\mathrm{Q}}, \lambda_{a}$ are $2 \times 1$ matrices. (Note: $x_{t}$ is a Gaussian model, i.e. in $\left.\mathbb{A}_{0}(2)\right)$. The yield of maturity $\tau$ is
+where $\Phi, \kappa^{\Q}, \Sigma, \Lambda_{b}$ are $2 \times 2$ and $\theta^{\Q}, \lambda_{a}$ are $2 \times 1$ matrices. (Note: $x_{t}$ is a Gaussian model, i.e. in $\left.\mathbb{A}_{0}(2)\right)$. The yield of maturity $\tau$ is
 
 $$
 y_{t, \tau}=a_{\tau}+b_{\tau}^{\prime} x_{t}+x_{t}^{\prime} C_{\tau} x_{t}
@@ -96,16 +96,16 @@ where $s_{t}$ is some (shadow) stochastic process. When $r_{t}$ touches zero it 
 $$
 \begin{aligned}
 s_{t} & =\rho+\gamma^{\prime} x_{t}+x_{t}^{\prime} \Phi x_{t} \\
-\mathrm{~d} x_{t} & =\kappa^{\mathrm{Q}}\left(\theta^{\mathrm{Q}}-x_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} B_{t}^{\mathrm{Q}} \\
+\d  x_{t} & =\kappa^{\Q}\left(\theta^{\Q}-x_{t}\right) \d  t+\Sigma \d  B_{t}^{\Q} \\
 \lambda_{t} & =\lambda_{a}+\Lambda_{b} x_{t}
 \end{aligned}
 $$
 
-where $\rho$ is a constant and $\Phi, \kappa^{\mathbb{Q}}, \Sigma, \Lambda_{b}$ are $2 \times 2$ and $\gamma, \theta^{\mathbb{Q}}, \lambda_{a}$ are $2 \times 1$ matrices.\\
+where $\rho$ is a constant and $\Phi, \kappa^{\Q}, \Sigma, \Lambda_{b}$ are $2 \times 2$ and $\gamma, \theta^{\Q}, \lambda_{a}$ are $2 \times 1$ matrices.\\
 Letting $P(t, x)$ be the price of a zero-coupon bond maturing at $T$ Munk inplies
 
 $$
-\frac{\partial P}{\partial t}+\left(\kappa^{\mathbb{Q}}\left(\theta^{\mathbb{Q}}-x_{t}\right)\right)^{\prime} \frac{\partial P}{\partial x}+\frac{1}{2} \operatorname{tr}\left(\frac{\partial^{2} P}{\partial x^{2}} \Sigma \Sigma^{\prime}\right)-\max \{s(x), 0\}=0
+\frac{\partial P}{\partial t}+\left(\kappa^{\Q}\left(\theta^{\Q}-x_{t}\right)\right)^{\prime} \frac{\partial P}{\partial x}+\frac{1}{2} \operatorname{tr}\left(\frac{\partial^{2} P}{\partial x^{2}} \Sigma \Sigma^{\prime}\right)-\max \{s(x), 0\}=0
 $$
 
 with $P(T, x)=1$ for all $x$. (By a change of variable, we get the PDE from the article). Due to the nonlinear term $\max \{s(x), 0\}$ we cannot solve the PDE explicitly (numerical methods include finite difference (KS use this), Monte Carlo, trees). No explicit formulas for volatilities and excess returns either. For understanding let's consider the 1 -factor model
@@ -113,7 +113,7 @@ with $P(T, x)=1$ for all $x$. (By a change of variable, we get the PDE from the 
 $$
 \begin{aligned}
 r_{t} & =\max \left\{s_{t}, 0\right\} \\
-\mathrm{d} s_{t} & =\kappa^{\mathbb{P}}\left(\theta^{\mathbb{P}}-s_{t}\right) \mathrm{d} t+\sigma \mathrm{d} B_{t}^{\mathbb{P}} \\
+\d  s_{t} & =\kappa^{\P}\left(\theta^{\P}-s_{t}\right) \d  t+\sigma \d  B_{t}^{\P} \\
 \lambda_{t} & =\bar{\lambda}
 \end{aligned}
 $$
@@ -127,34 +127,34 @@ $$
 Additional comments: When $s_{t}=0$ we have $r_{t}=0$ and $\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}}>0$. Thus, $\sigma_{t, \tau}$ and $\rho_{t, \tau}$ stay away from 0 even for small $\tau$. Also, when $s_{t} \rightarrow-\infty$ we have $r_{t}=0$ and $\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}}$ tends to 0 . When $s_{t} \rightarrow \infty$ the term $\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}}$ becomes constant.
 
 \section{Additional stuff}
-Affine models: The 2 -factor CIR model ( $\mathbb{A}_{2}(2)$ ) with $\mathbb{Q}$-dynamics
+Affine models: The 2 -factor CIR model ( $\mathbb{A}_{2}(2)$ ) with $\Q$-dynamics
 
 $$
 \left[\begin{array}{l}
-\mathrm{d} x_{1 t} \\
-\mathrm{~d} x_{2 t}
+\d  x_{1 t} \\
+\d  x_{2 t}
 \end{array}\right]=\left[\begin{array}{ll}
-\kappa_{11}^{\mathrm{Q}} & \kappa_{12}^{\mathrm{Q}} \\
-\kappa_{21}^{\mathrm{Q}} & \kappa_{22}^{\mathrm{Q}}
+\kappa_{11}^{\Q} & \kappa_{12}^{\Q} \\
+\kappa_{21}^{\Q} & \kappa_{22}^{\Q}
 \end{array}\right]\left(\left[\begin{array}{l}
-\theta_{1}^{\mathrm{Q}} \\
-\theta_{2}^{\mathrm{Q}}
+\theta_{1}^{\Q} \\
+\theta_{2}^{\Q}
 \end{array}\right]-\left[\begin{array}{l}
 x_{1 t} \\
 x_{2 t}
-\end{array}\right]\right) \mathrm{d} t+\left[\begin{array}{cc}
+\end{array}\right]\right) \d  t+\left[\begin{array}{cc}
 \sqrt{x_{1 t}} & 0 \\
 0 & \sqrt{x_{2 t}}
 \end{array}\right]\left[\begin{array}{l}
-\mathrm{d} B_{1 t}^{\mathrm{Q}} \\
-\mathrm{~d} B_{2 t}^{\mathrm{Q}}
+\d  B_{1 t}^{\Q} \\
+\d  B_{2 t}^{\Q}
 \end{array}\right],
 $$
 
 where
 
 $$
-\left[\kappa^{\mathbb{Q}} \theta^{\mathbb{Q}}\right]_{i}>0, \quad \kappa_{i i}^{\mathbb{Q}}>0, \quad i=1,2, \quad \text { and } \quad \kappa_{12}^{\mathbb{Q}}, \kappa_{21}^{\mathbb{Q}}<0
+\left[\kappa^{\Q} \theta^{\Q}\right]_{i}>0, \quad \kappa_{i i}^{\Q}>0, \quad i=1,2, \quad \text { and } \quad \kappa_{12}^{\Q}, \kappa_{21}^{\Q}<0
 $$
 
 Assume

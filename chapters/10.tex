@@ -24,3 +24,70 @@ $$
 
 In the intensity reduced form models, the modeling object is the intensity process $\lambda_{t}$ by which the default process $N_{t}$ jumps. We have looked at three different choices Constant intensity $\lambda$, deterministic intensity function $\lambda_{t}$, and stochastic intensity process driven by $X_{t}, \lambda\left(X_{t}\right)$.
 
+\section{Stochastic intensity reduced form model}
+Letting the intensity be stochastic results in the default process $N_{t}$ being a Cox process. In this setup the survival probabilities are given by
+
+$$
+\Q_{t}[\tau>T]=\E_{t}\left[\e^{-\int_{t}^{T} \lambda_{s} \d  s}\right]
+$$
+
+This is completely analogue to pricing of risk-free ZCBs, so all the short interest rate modeling machinery can be used.
+
+CIR intensity: Letting the default intensity follow a CIR process
+
+$$
+\d  \lambda_{t}=k(\bar{\lambda}-\lambda) \d  t+\sigma \sqrt{\lambda_{t}} \d  W_{t},
+$$
+
+we have a tractable specification. The intensity varies ramdomly with a tendency to revert to its long-run mean $\bar{\lambda}$ ( $k$ determines the speed of reversion). With the Feller conditions
+
+$$
+2 k \bar{\lambda}>\sigma^{2}, \quad \text { and } \quad \lambda_{0}>0,
+$$
+
+it can be shown that $\lambda_{t}$ is strictly positive for all $t$. In this setting the survival probability is
+
+$$
+\Q_{t}[\tau>T]=\e^{a(T-t)-b(T-t) \lambda_{t}}
+$$
+
+where $a$ and $b$ are deterministic functions of time to maturity with
+
+$$
+\begin{aligned}
+& a(T-t)=\frac{2 k \bar{\lambda}}{\sigma^{2}} \ln \left(\frac{2 \gamma \e^{\frac{1}{2}(\gamma+k)(T-t)}}{(\gamma+k)\left(\e^{\gamma(T-t)}-1\right)+2 \gamma}\right) \\
+& b(T-t)=\frac{2\left(\e^{\gamma(T-t)}-1\right)}{(\gamma+k)\left(\e^{\gamma(T-t)}-1\right)+2 \gamma}
+\end{aligned}
+$$
+
+where $\gamma=\sqrt{k^{2}+2 \sigma^{2}}$.
+
+\section{Pricing defaultable bonds (zero recovery)}
+With stochastic intensities and interest rates it can be shown that with $R=0$
+
+$$
+\begin{aligned}
+\tilde{B}_{t}^{T} & =\E_{t}\left[\e^{-\int_{t}^{T} r_{s} \d  s} \mathbb{1}_{\{\tau>T\}}\right] \\
+& =\E_{t}\left[\E\left[\e^{-\int_{t}^{T} r_{s} \d  s} \mathbb{1}_{\{\tau>T\}} \mid \mathcal{G}_{T}\right]\right] \\
+& =\E_{t}\left[\E\left[\e^{-\int_{t}^{T} r_{s} \d  s} \mathbb{1}_{\left\{N_{T}=0\right\}} \mid \mathcal{G}_{T}\right]\right] \\
+& =\E_{t}\left[\E\left[\e^{-\int_{t}^{T} r_{s} \d  s} \mid \mathcal{G}_{T}\right] \E\left[\mathbb{1}_{\left\{N_{T}=0\right\}} \mid \mathcal{G}_{T}\right]\right] \\
+& =\E_{t}\left[\E\left[\e^{-\int_{t}^{T} r_{s} \d  s} \mid \mathcal{G}_{T}\right] \e^{-\int_{t}^{T} \lambda_{s} \d  s}\right] \\
+& =\E_{t}\left[\e^{-\int_{t}^{T} r_{s}+\lambda_{s} \d  s}\right]
+\end{aligned}
+$$
+
+If the intensity process $\lambda_{t}$ and interest rate process $r_{t}$ are independent
+
+$$
+\tilde{B}_{t}^{T}=\E_{t}\left[\e^{-\int_{t}^{T} r_{s} \d  s}\right] \E_{t}\left[\e^{-\int_{t}^{T} \lambda_{s} \d  s}\right]=B_{t}^{T} \Q_{t}[\tau>T]
+$$
+
+as in the case with deterministic intensity.
+
+\subsection{Additional stuff}
+Possion process: Let $N_{t}$ be a poisson process with intensity parameter $\lambda$ (this means $N_{t} \sim p o(\lambda t)$ ). Then
+
+$$
+\Q\left[N_{t}=k\right]=\frac{(\lambda t)^{k}}{k!} \e^{-\lambda t}
+$$
+

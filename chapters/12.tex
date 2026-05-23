@@ -1,71 +1,173 @@
-\chapter{Credit derivatives}
-The main idea when pricing a credit default swap (CDS) (a single name credit derivative) is that the value at time $t=0$ is zero. We set spreads so we are indifferent between being a protection seller or buyer (in expectation).
+\section{Multi-name models of default}
+We consider credit derivatives whose underlying is a set of names (reference entities). A multi-name contract is associated with multiple credit events which trigger remedial payment to the protection buyer. The collateralized debt obligation (CDO) is one of the most popular multi-name credit derivatives. We want to look at the default correlation.
 
-The protection buyer pays the CDS spread $s^{C D S}(T)$ every payment date unless the reference entity goes bankrupt. The value of the stream of cashflows is the sum of the discounted future payments times the probability of no default until time $t$. (Assuming the CDS does not carry any counterparty risk itself).
+\subsection{A structual approach}
+To model the default correlation consider the Black-Scholes-Merton (BSM) structural model of default with default defined as
 
-\subsection{Pricing CDS}
-Let $\delta_{i}=T_{i}-T_{i-1}$. The protections buyer's cashflows are
+$$
+\tau= \begin{cases}T, & \text { if } V_{T}<F \\ \infty & \text { if } V_{T} \geq F\end{cases}
+$$
+
+where $F$ is the face value of the debt and $V_{T}$ is the asset values at maturity. Hence, it is the asset values $V_{T}$ at maturity $T$ that is the quantity of interest. Assuming $T=1$ and defining the return on the asset values $\tilde{R}$ over the period from 0 to $T$ as
+
+$$
+\e^{\tilde{R}}=\frac{V_{1}}{V_{0}}=\frac{V_{0} \e^{\left(\mu-\frac{\sigma^{2}}{2}\right)}}{V_{0}}
+$$
+
+where the last equality holds since $V_{T}$ is log-normally distributed in the BSM model. Taking the logarithm on both sides we have
+
+$$
+\tilde{R} \sim N\left(\mu-\frac{\sigma^{2}}{2}, \sigma^{2}\right)
+$$
+
+Likewise, the default can be written in terms of the return on the asset value
+
+$$
+\begin{gathered}
+V_{1}<F, \\
+\widehat{\Downarrow} \\
+\tilde{R}=\ln \left(\frac{V_{1}}{V_{0}}\right)<\ln \left(\frac{F}{V_{0}}\right), \\
+\widehat{\Downarrow} \\
+R=\frac{\tilde{R}-\left(\mu-\frac{\sigma^{2}}{2}\right)}{\sigma}<\frac{\ln \left(\frac{F}{V_{0}}\right)-\left(\mu-\frac{\sigma^{2}}{2}\right)}{\sigma}=C,
+\end{gathered}
+$$
+
+where $R$ is the standardized return on the firm value and the right hand side is a constant $C$. Thus, default of the firm can be written as
+
+$$
+R<C
+$$
+
+where $R$ is standard normally distributed.
+
+\section{Introducing several companies}
+We define the default of company $i$ as when the standardized return on owning the firm falls below a firm specific threshold $C_{i}$ at some future time $T$
+
+$$
+\text { Company } i \text { defaults at time } T \Longleftrightarrow R_{i} \leq C_{i}, \quad R_{i}=\frac{\tilde{R}_{i}-\E\left[\tilde{R}_{i}\right]}{\sqrt{\mathbb{V}\left[\tilde{R}_{i}\right]}}
+$$
+
+The standardization means all $R_{i}$ s in the portfolio have zero mean and unit variance. We assume that individual period returns $R_{i}$ are normally distributed. Thus, the default probabilities are
+
+$$
+q_{i}=\Q\left[R_{i} \leq C_{i}\right]=\Phi\left(C_{i}\right) \quad \Longrightarrow \quad C_{i}=\Phi^{-1}\left(q_{i}\right)
+$$
+
+with $\Phi(\cdot)$ the CDF of the standard normal distribution. Furthermore, assume that all returns are correlated through one common factor $\alpha$ by
+
+$$
+R_{i}=\beta_{i} \alpha+\sqrt{1-\beta_{i}^{2}} \epsilon_{i}
+$$
+
+where $\alpha$ and $\epsilon_{i}$ are independent and standard normally distributed. Also, the $\epsilon_{i}$ s are independent. (The common factor $\alpha$ could be interpreted as the standardized return on the stock market or the general state of the economy).
+
+How are company returns correlated in this setting?
 
 $$
 \begin{aligned}
-\pi^{\text {prem }} & =\mathbb{E}^{\mathbb{Q}}\left[\sum_{i=1}^{N} \exp \left(-\int_{0}^{T_{i}} r_{s} \mathrm{~d} s\right) \mathbb{1}_{\left\{\tau>T_{i}\right\}} s^{C D S}\left(T_{N}\right) \delta_{i}\right] \\
-& =s^{C D S}\left(T_{N}\right) \sum_{i=1}^{N} \delta_{i} \underbrace{\mathbb{E}^{\mathbb{Q}}\left[\exp \left(-\int_{0}^{T_{i}} r_{s}+\lambda_{s} \mathrm{~d} s\right)\right]}_{\text {price of defaultable ZCB, no recovery }} \\
-& =s^{C D S}\left(T_{N}\right) \sum_{i=1}^{N} \delta_{i} B_{0}^{T_{i}} \mathbb{Q}_{0}\left[\tau>T_{i}\right]
+\operatorname{Cov}\left(R_{i}, R_{j}\right) & =\E\left[\left(R_{i}-\E\left[R_{i}\right]\right)\left(R_{j}-\E\left[R_{j}\right]\right)\right] \\
+& =\E\left[R_{i} R_{j}\right] \\
+& =\E\left[\beta_{i} \beta_{j} \alpha^{2}\right] \\
+& =\beta_{i} \beta_{j} \\
+& =\operatorname{corr}\left(R_{i}, R_{j}\right),
 \end{aligned}
 $$
 
-The protection seller pays $(1-R) \cdot$ Notional if there is a default. (We abstract from settlement, liquidity and other issues). Assuming recovery rate $R$ constant, the protection seller's cashflows are
+since all the other random variables involved are independent and we have unit variance. Key advantage: Given a common factor $\alpha$ the returns are independent, observed by
 
 $$
 \begin{aligned}
-\pi^{\text {prot }} & =\mathbb{E}^{\mathbb{Q}}\left[\exp \left(-\int_{0}^{\tau} r_{s} \mathrm{~d} s\right) \mathbb{1}_{\left\{\tau \leq T_{N}\right\}}(1-R)\right] \\
-& =(1-R) \mathbb{E}^{\mathbb{Q}}\left[\int_{0}^{T_{N}} \lambda_{t} \exp \left(-\int_{0}^{t} r_{s}+\lambda_{s} \mathrm{~d} s\right) \mathrm{d} t\right]
+& \E\left[R_{i} \mid \alpha\right]=\beta_{i} \alpha \\
+& \mathbb{V}\left[R_{i} \mid \alpha\right]=\E\left[\left(R_{i}-\beta_{i} \alpha\right)^{2} \mid \alpha\right]=\E\left[\left(1-\beta_{i}^{2}\right) \epsilon_{i}^{2} \mid \alpha\right]=1-\beta_{i}^{2}
 \end{aligned}
 $$
 
-If $r$ and $\lambda$ are independent
+Now, we can find the correlation of the returns given knowledge of the common factor $\alpha$
 
 $$
-\pi^{\text {prot }}=(1-R) \int_{0}^{T_{N}} B_{o}^{t} \mathbb{Q}_{0}[\tau>t] \hat{\lambda}_{t} \mathrm{~d} t
+\operatorname{Cov}\left(R_{i}, R_{j} \mid \alpha\right)=\sqrt{1-\beta_{i}^{2}} \sqrt{1-\beta_{j}^{2}} \E\left[\epsilon_{i} \epsilon_{j} \mid \alpha\right]=0
 $$
 
-with $\hat{\lambda}(t)$ being the time-deterministic intensity (or expected intensity $\mathbb{E}_{0}^{\mathrm{Q}}\left[\lambda_{t}\right]$ ).\\
-Equating the two $\pi^{\text {prem }}=\pi^{\text {prot }}$ we obtain
+since individual factors were assumed independent. From this, the convenient form of the default probability given $\alpha$ arises
 
 $$
 \begin{aligned}
-s^{C D S}\left(T_{N}\right) \sum_{i=1}^{N} \delta_{i} B_{0}^{T_{i}} \mathbb{Q}_{0}\left[\tau>T_{i}\right] & =(1-R) \int_{0}^{T_{N}} B_{o}^{t} \mathbb{Q}_{0}[\tau>t] \hat{\lambda}_{t} \mathrm{~d} t \\
-& \mathbb{I} \\
-s^{C D S}\left(T_{N}\right) & =\frac{(1-R) \int_{0}^{T_{N}} B_{o}^{t} \mathbb{Q}_{0}[\tau>t] \hat{\lambda}_{t} \mathrm{~d} t}{\sum_{i=1}^{N} \delta_{i} B_{0}^{T_{i}} \mathbb{Q}_{0}\left[\tau>T_{i}\right]}
+q_{i}(\alpha) & =\Q\left[R_{i} \leq C_{i} \mid \alpha\right] \\
+& =\Q\left[\left.\epsilon_{i} \leq \frac{C_{i}-\beta_{i} \alpha}{\sqrt{1-\beta_{i}^{2}}} \right\rvert\, \alpha\right] \\
+& =\Phi\left(\frac{C_{i}-\beta_{i} \alpha}{\sqrt{1-\beta_{i}^{2}}}\right) \\
+& =\Phi\left(\frac{\Phi^{-1}\left(q_{i}\right)-\beta_{i} \alpha}{\sqrt{1-\beta_{i}^{2}}}\right)
 \end{aligned}
 $$
 
-If $\lambda$ is constant $\mathbb{Q}_{0}\left[\tau>T_{i}\right]=\mathrm{e}^{-\lambda T_{i}}$. If $\lambda$ is affine
+which depends on $\beta_{i}$.
+
+What are the correlation of defaults $\rho_{i, j}$ ? It has the form form
 
 $$
-\mathbb{Q}_{0}\left[\tau>T_{i}\right]=\mathbb{E}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{0}^{T_{i}} \lambda_{s} \mathrm{~d} s}\right]=\mathrm{e}^{A\left(0, T_{i}\right)+B\left(0, T_{i}\right) \lambda_{0}}
+\rho_{i, j}=\frac{q_{i \& j}-q_{i} q_{j}}{\sqrt{q_{i}\left(1-q_{i}\right)} \sqrt{q_{j}\left(1-q_{j}\right)}}=\frac{\Phi_{2}\left(C_{i}, C_{j} ; \beta_{i} \beta_{j}\right)-\Phi\left(C_{i}\right) \Phi\left(C_{j}\right)}{\sqrt{\Phi\left(C_{i}\right)\left(1-\Phi\left(C_{i}\right)\right)} \sqrt{\Phi\left(C_{j}\right)\left(1-\Phi\left(C_{j}\right)\right)}},
 $$
 
-\subsection{Marking to market}
-To find the current value (time $t, t_{n-1} \leq t<t_{n}$ ) of the contract (an old one) from the perspective of the protection buyer, observe that
+using $q_{i}(\alpha)=\Phi\left(C_{i}\right)$ and that $R_{i}$ and $R_{j}$ are bivariate normally distributed with correlation coefficient $\operatorname{corr}\left(R_{i}, R_{j}\right)=\beta_{i} \beta_{j}$ so
 
 $$
-V_{\text {old }}=V_{\text {old }}+V_{n e w},
+q_{i \& j}=\Q\left[R_{i} \leq C_{i} \text { and } R_{j} \leq C_{j}\right]=\Phi_{2}\left(C_{i}, C_{j} ; \beta_{i} \beta_{j}\right)
 $$
-
-since the newly issued contract has zero market value. Thus
-
-$$
-\begin{aligned}
-V_{\text {old }} & =\pi_{\text {old }}^{\text {prot }}-\pi_{\text {old }}^{\text {prem }}-\left(\pi_{\text {new }}^{\text {prot }}-\pi_{\text {new }}^{\text {prem }}\right) \\
-& =\pi_{\text {new }}^{\text {prem }}-\pi_{\text {old }}^{\text {prem }} \\
-& =\sum_{i=1}^{N} B_{t}^{T_{i}} \mathbb{Q}_{t}\left[\tau>T_{i}\right] \delta_{i} s_{t}^{C D S}\left(T_{N}\right)-\sum_{i=1}^{N} B_{t}^{T_{i}} \mathbb{Q}_{t}\left[\tau>T_{i}\right] \delta_{i} s_{0}^{C D S}\left(T_{N}\right) \\
-& =\sum_{i=1}^{N} B_{t}^{T_{i}} \mathbb{Q}_{t}\left[\tau>T_{i}\right] \delta_{i}\left(s_{t}^{C D S}\left(T_{N}\right)-s_{0}^{C D S}\left(T_{N}\right)\right),
-\end{aligned}
-$$
-
-since $\pi_{\text {old }}^{\text {prot }}=\pi_{\text {new }}^{\text {prot }}$. From this it can be seen that the value of the contract from the perspective of the protection buyer increases as the CDS spread increases.
 
 \subsection{Additional stuff}
-Calibration: A short how to - We have market quotes $X_{t}=\left(x_{0}, x_{1}, \ldots, x_{n}\right)$ and closed form solution $\pi_{X}=f(\theta)$. What value of $\theta$ should we choose so $\pi_{X}(i)$ is close to $x_{i}$ for all $i=0,1, \ldots, n$ ?
+The loss distribution function: Most multi-name credit derivatives depend on the losses incurred in the portfolio. Hence, the object of interest is the loss distribution function that assigns probabilities to default related losses over some time horizon. Assuming $\beta_{i}=\beta, C_{i}=C$ and $R_{i}=R$ the loss $L$ relates to the number of defaults $k$ by
+
+$$
+L=\frac{k}{I}(1-R)
+$$
+
+where $I$ is the number of entities. The number of defaults on a portfolio is binomially distributed (individual returns $R_{i}$ were independent given $\alpha$ ) given $\alpha$, so the individual conditional default probability is
+
+$$
+q(\alpha)=\Phi\left(\frac{C-\beta \alpha}{\sqrt{1-\beta^{2}}}\right)
+$$
+
+Large portfolio approximation: When the number of entities $I$ in the portfolio is high, the CDF for the losses gets numerically hard to work with. Instead we can use the large portfolio approximation
+
+$$
+\Q[L \leq \theta]=\Phi\left(-\frac{\Phi^{-1}(q)-\Phi^{-1}(\theta) \sqrt{1-\beta^{2}}}{\beta}\right)
+$$
+
+CDOs: Two types:
+
+\begin{itemize}
+  \item Traditional: CDO is based on the payoffs from an underlying pool of loans/bonds.
+  \item Synthetic: CDO is a "pure" credit derivative, which again can be build from traditional CDOs.\\
+The basic principle in both is to split the payments associated with an underlying pool of assets into different tranches with different seniority. Buyer gets money from seller in case of defaults.\\
+Pricing CDO tranches: $K_{L_{j}}$ and $K_{U_{j}}$ are attachment and detachment point of tranche $j . Z_{j, t}$ is the loss percentage incurred on tranche $j$ at time $t$
+\end{itemize}
+
+$$
+Z_{j, t}=\min \left\{Z_{t}, K_{U_{j}}\right\}-\min \left\{Z_{t}, K_{L_{j}}\right\}
+$$
+
+The spread on tranche $j$ is
+
+$$
+s_{j}=\frac{\sum_{k=1}^{K} B_{0}^{T}\left(\E\left[Z_{j, t_{k}}\right]-\E\left[Z_{j, t_{k-1}}\right]\right)}{\sum_{k=1}^{K} B_{0}^{T} \eta\left(K_{U_{j}}-K_{L_{j}}-\E\left[Z_{j, t_{k}}\right]\right)},
+$$
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=0.8\textwidth]{figures/cdo.jpg}
+\captionsetup{labelformat=empty}
+\caption{Figure: Structure in an unfunded synthetic CDO.}
+\end{center}
+\end{figure}
+
+with $\eta$ being grid size. Using LPA, pricing of a tranche boils down to evaluating
+
+$$
+\E\left[Z_{j, t_{k}}\right]=\int_{0}^{1} \min \left\{(1-R) \theta, K_{U_{j}}\right\}-\min \left\{(1-R) \theta, K_{L_{j}}\right\} \d  F\left(\theta ; q_{t_{k}}, \beta\right)
+$$
+
+where
+
+$$
+F\left(\theta ; q_{t_{k}}, \beta\right)=\Phi\left(-\frac{\Phi^{-1}\left(q_{t_{k}}\right)-\Phi^{-1}(\theta) \sqrt{1-\beta^{2}}}{\beta}\right) .
+$$
 

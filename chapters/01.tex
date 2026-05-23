@@ -21,13 +21,15 @@ A forward with maturity $T$ and delivery price $K$ provides a payoff of $P_{T}-K
 other payments. Here, $P$ is the underlying (typically the price of an asset or a specific interest
 rate). Then the time $t<T$ value of the payoff is
 \[
-V_{t}=\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u}\left(P_{T}-K\right)\right]=\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u} P_{T}\right]-K B_{t}^{T}
+V_{t}=\E_{t}^{\Q}\left[\e^{-\int_{t}^{T} r_{u} \d 
+u}\left(P_{T}-K\right)\right]=\E_{t}^{\Q}\left[\e^{-\int_{t}^{T} r_{u} \d 
+u} P_{T}\right]-K B_{t}^{T}
 \]
 By definition the forward price for immediate delivery is identical to the value of the underlying,
 i.e. $F_{T}^{T}=P_{T}$. The forward price is the value of $K$ that solves $V_{t}=0$, i.e. the
 forward price is
 \[
-F_{t}^{T}=\frac{\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u} P_{T}\right]}{B_{t}^{T}}
+F_{t}^{T}=\frac{\E_{t}^{\Q}\left[\e^{-\int_{t}^{T} r_{u} \d  u} P_{T}\right]}{B_{t}^{T}}
 \]
 Under the risk-neutral measure, the discounted asset price is a martingale. So for an asset with no
 dividends/cashflows before $T$ we have $ F_{t}^{T}=\frac{P_{t}}{B_{t}^{T}}$.
@@ -42,22 +44,22 @@ at time $T$ (and hence the call price at $T$) is
 \[
 C_{T}=\max \left\{P_{T}-K, 0\right\}
 \]
-In an arbitrage free market, there exists an equivalent martingale measure $\mathbb{Q}$ so the asset
+In an arbitrage free market, there exists an equivalent martingale measure $\Q$ so the asset
 price $P_{T}$ is a martingale under the $\Q$. We may use the $T$-forward martingale measure
 $\Q^{T}$, which uses the zero-coupon bond expiring at time $T$, $B_{t}^{T}$, as numeraire. Then, (recall $B_{T}^{T}=1$)
 \[
-  \frac{P_t}{B_t^{T}} = \E_t^{\Q^{T}}[P_T] \iff   P_{t}=B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[P_{T}\right]
+  \frac{P_t}{B_t^{T}} = \E_t^{\Q^{T}}[P_T] \iff   P_{t}=B_{t}^{T} \E_{t}^{\Q^{T}}\left[P_{T}\right]
 \]
  Using this measure we can derive a general pricing formula for a European call option:
 \begin{align*}
-C_{t} & =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\max \left\{P_{T}-K, 0\right\}\right] \\
-& =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}}\left(P_{T}-K\right)\right] \\
-& =B_{t}^{T}\left(\mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K \mathbb{Q}^{T}\left[P_{T}>K\right]\right) \\
-& =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K B_{t}^{T} \mathbb{Q}^{T}\left[P_{T}>K\right] \\
-\text{(Change of numeraire)}\quad & =P_{t} \mathbb{E}_{t}^{\mathbb{Q}^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \mathbb{Q}_{t}^{T}\left[P_{T}>K\right] \\
-& =P_{t} \mathbb{Q}_{t}^{P}(P_{T}>K)-K B_{t}^{T} \mathbb{Q}_{t}^{T}(P_{T}>K)
+C_{t} & =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\max \left\{P_{T}-K, 0\right\}\right] \\
+& =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}}\left(P_{T}-K\right)\right] \\
+& =B_{t}^{T}\left(\E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K \Q^{T}\left[P_{T}>K\right]\right) \\
+& =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K B_{t}^{T} \Q^{T}\left[P_{T}>K\right] \\
+\text{(Change of numeraire)}\quad & =P_{t} \E_{t}^{\Q^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \Q_{t}^{T}\left[P_{T}>K\right] \\
+& =P_{t} \Q_{t}^{P}(P_{T}>K)-K B_{t}^{T} \Q_{t}^{T}(P_{T}>K)
 \end{align*}
-where $\mathbb{Q}^{P}$ is the MG measure using $P_{t}$ as numeraire. The proof is completely
+where $\Q^{P}$ is the MG measure using $P_{t}$ as numeraire. The proof is completely
 analogous for European puts, only we use the payoff $\max \{ K - P_t, 0 \}$. Note that the final
 probabilities correspond to the option being in the money under the two different equivalent
 martingale measures. 
@@ -92,7 +94,7 @@ Whereas, with a forward you only take into account the expected future rate.
 Thus, the difference in price between the two contracts is the discounted covariance between the
 zero-coupon bond and the payment price at time $T$. A Futures contract has value: 
 \[
-  \phi_{t}^{T}=\mathbb{E}^{\mathbb{Q}}\left[P_{T}\right]
+  \phi_{t}^{T}=\E^{\Q}\left[P_{T}\right]
 .\]
 
 \begin{description}

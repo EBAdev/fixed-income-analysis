@@ -2,21 +2,21 @@
 The formulas in this course rely on some model parameters, which in practice need to be estimated. For this, we consider Kalman filter based qausi maximum likelihood (QML). Kalman filter is used to update the distribution of the state variables $x_{t}$ and QML is used to maximize the log-likelihood. We have two cases: Observed $x_{t}$ and unobserved $x_{t}$.
 
 \begin{itemize}
-  \item Observed: Assume $x_{t}$ has Vasicek $\mathbb{P}$-dynamics
+  \item Observed: Assume $x_{t}$ has Vasicek $\P$-dynamics
 \end{itemize}
 
 $$
-\mathrm{d} x_{t}=\kappa\left(\theta-x_{t}\right) \mathrm{d} t+\beta \mathrm{d} z_{t}
+\d  x_{t}=\kappa\left(\theta-x_{t}\right) \d  t+\beta \d  z_{t}
 $$
 
-and we have sample $\left\{x_{1}, \ldots, x_{T}\right\}$. Simple MLE can be applied (since it's Gaussian). Typically we do not observed $x_{t}$, if we for instance try to model the short rate. We can also only estimate $\mathbb{P}$-model parameters and not the market price of risk.
+and we have sample $\left\{x_{1}, \ldots, x_{T}\right\}$. Simple MLE can be applied (since it's Gaussian). Typically we do not observed $x_{t}$, if we for instance try to model the short rate. We can also only estimate $\P$-model parameters and not the market price of risk.
 
 \begin{itemize}
-  \item Unobserved: Assume $x_{t}$ has Vasicek $\mathbb{P}$-dynamics
+  \item Unobserved: Assume $x_{t}$ has Vasicek $\P$-dynamics
 \end{itemize}
 
 $$
-\mathrm{d} x_{t}=\kappa\left(\theta-x_{t}\right) \mathrm{d} t+\beta \mathrm{d} z_{t}
+\d  x_{t}=\kappa\left(\theta-x_{t}\right) \d  t+\beta \d  z_{t}
 $$
 
 In the multi-factor affine model we have the yield
@@ -25,7 +25,7 @@ $$
 y_{t}(\tau)=A_{\tau}+B_{\tau}^{\prime} x_{t}
 $$
 
-and we observe $y_{t}(\tau)$ for $t \in\{1, \ldots, T\}$ and $\tau \in\left\{\tau_{1}, \ldots, \tau_{N}\right\}$. Kalman filter is then used to update the distribution of $x_{t}$. In particular from $t=1$ to $t=T$ we sequentially update mean and variance of Gaussian $x_{t}$ as we observe new $y_{t}$. Then find parameters by maximizing log-likelihood (QML). This way, we can estimate both $\mathbb{P}$ and $\mathbb{Q}$ parameters and market price of risk $\lambda$.
+and we observe $y_{t}(\tau)$ for $t \in\{1, \ldots, T\}$ and $\tau \in\left\{\tau_{1}, \ldots, \tau_{N}\right\}$. Kalman filter is then used to update the distribution of $x_{t}$. In particular from $t=1$ to $t=T$ we sequentially update mean and variance of Gaussian $x_{t}$ as we observe new $y_{t}$. Then find parameters by maximizing log-likelihood (QML). This way, we can estimate both $\P$ and $\Q$ parameters and market price of risk $\lambda$.
 
 \subsection{State space system}
 Linear state space system has two equations, measurement and transition
@@ -37,9 +37,9 @@ x_{t} & =C+D x_{t-1}+\eta_{t}, \quad \eta_{t} \sim N(0, Q)
 \end{aligned}
 $$
 
-The measurement equation is similar to affine equation between yields and state variables. If we have $N$ maturities of yields and $k$ state variables $A$ is a $N \times 1$ matrix and $B$ is $N \times k . \varepsilon_{t}$ is measurement error (deviations of observed data from model implied prices). We use $\mathbb{Q}$-dynamics of $x_{t}$.
+The measurement equation is similar to affine equation between yields and state variables. If we have $N$ maturities of yields and $k$ state variables $A$ is a $N \times 1$ matrix and $B$ is $N \times k . \varepsilon_{t}$ is measurement error (deviations of observed data from model implied prices). We use $\Q$-dynamics of $x_{t}$.
 
-The transition equation describes the dynamics of the state variables only. $C$ is $k \times 1, D$ and $Q$ is $k \times k . \eta_{t}$ is innovation error. Here, we use the $\mathbb{P}$-dynamics of $x_{t}$.
+The transition equation describes the dynamics of the state variables only. $C$ is $k \times 1, D$ and $Q$ is $k \times k . \eta_{t}$ is innovation error. Here, we use the $\P$-dynamics of $x_{t}$.
 
 \subsection{Kalman filter estimation}
 Will consider Kalman filter estimation for the unobserved case. We assume Gaussian distribution of $x_{t}$ and update it sequentially. It contains three steps: Initialization, prediction and update.\\
@@ -49,7 +49,7 @@ $$
 x_{0} \sim N\left(x_{0 \mid 0}, \Sigma_{0 \mid 0}\right)
 $$
 
-where $x_{0 \mid 0}=\mathbb{E}\left[x_{0}\right]$ and $\Sigma_{0 \mid 0}=\mathbb{V}\left[x_{0}\right]$ are unconditional mean and variance of stationary state variable $x_{t}$.\\
+where $x_{0 \mid 0}=\E\left[x_{0}\right]$ and $\Sigma_{0 \mid 0}=\mathbb{V}\left[x_{0}\right]$ are unconditional mean and variance of stationary state variable $x_{t}$.\\
 Prediction step: In this step we predict $x_{t}$ given observations available at time $t-1$, i.e. $Y_{t-1}=\left\{y_{1}, \ldots, y_{t-1}\right\}$. From the previous point in time we have
 
 $$
@@ -66,7 +66,7 @@ where
 
 $$
 \begin{aligned}
-x_{t \mid t-1} & =\mathbb{E}\left[x_{t} \mid Y_{t-1}\right]=C+D \mathbb{E}\left[x_{t-1} \mid Y_{t-1}\right]=C+D x_{t-1 \mid t-1} \\
+x_{t \mid t-1} & =\E\left[x_{t} \mid Y_{t-1}\right]=C+D \E\left[x_{t-1} \mid Y_{t-1}\right]=C+D x_{t-1 \mid t-1} \\
 \Sigma_{t \mid t-1} & =\mathbb{V}\left[x_{t} \mid Y_{t-1}\right]=D \mathbb{V}\left[x_{t-1} \mid Y_{t-1}\right] D^{\prime}+Q=D \Sigma_{t-1 \mid t-1} D^{\prime}+Q
 \end{aligned}
 $$
@@ -87,7 +87,7 @@ where
 
 $$
 \begin{aligned}
-x_{t \mid t} & =\mathbb{E}\left[x_{t} \mid Y_{t}\right] \\
+x_{t \mid t} & =\E\left[x_{t} \mid Y_{t}\right] \\
 \Sigma_{t \mid t} & =\mathbb{V}\left[x_{t \mid t-1} \mid Y_{t}\right] \\
 & =\Sigma_{t \mid t-1} B^{\prime} F_{t}^{-1} v_{t} \\
 & =\Sigma_{t \mid t-1} B^{\prime} F_{t}^{-1} B \Sigma_{t \mid t-1}
@@ -97,7 +97,7 @@ $$
 with
 
 $$
-v_{t}=y_{t}-\mathbb{E}\left[y_{t} \mid Y_{t-1}\right], \quad \text { and } \quad F_{t}=\mathbb{V}\left[v_{t} \mid Y_{t-1}\right]=B \Sigma_{t \mid t-1} B^{\prime}+H
+v_{t}=y_{t}-\E\left[y_{t} \mid Y_{t-1}\right], \quad \text { and } \quad F_{t}=\mathbb{V}\left[v_{t} \mid Y_{t-1}\right]=B \Sigma_{t \mid t-1} B^{\prime}+H
 $$
 
 (If $y_{t}$ away from the mean the updated mean should go up. The data $y_{t}$ is seen in $v_{t}$ )

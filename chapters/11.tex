@@ -1,67 +1,71 @@
-\chapter{Stochastic intensity reduced form model}
-Letting the intensity be stochastic results in the default process $N_{t}$ being a Cox process. In this setup the survival probabilities are given by
+\chapter{Credit derivatives}
+The main idea when pricing a credit default swap (CDS) (a single name credit derivative) is that the value at time $t=0$ is zero. We set spreads so we are indifferent between being a protection seller or buyer (in expectation).
 
-$$
-\mathbb{Q}_{t}[\tau>T]=\mathbb{E}_{t}\left[\mathrm{e}^{-\int_{t}^{T} \lambda_{s} \mathrm{~d} s}\right]
-$$
+The protection buyer pays the CDS spread $s^{C D S}(T)$ every payment date unless the reference entity goes bankrupt. The value of the stream of cashflows is the sum of the discounted future payments times the probability of no default until time $t$. (Assuming the CDS does not carry any counterparty risk itself).
 
-This is completely analogue to pricing of risk-free ZCBs, so all the short interest rate modeling machinery can be used.
-
-CIR intensity: Letting the default intensity follow a CIR process
-
-$$
-\mathrm{d} \lambda_{t}=k(\bar{\lambda}-\lambda) \mathrm{d} t+\sigma \sqrt{\lambda_{t}} \mathrm{~d} W_{t},
-$$
-
-we have a tractable specification. The intensity varies ramdomly with a tendency to revert to its long-run mean $\bar{\lambda}$ ( $k$ determines the speed of reversion). With the Feller conditions
-
-$$
-2 k \bar{\lambda}>\sigma^{2}, \quad \text { and } \quad \lambda_{0}>0,
-$$
-
-it can be shown that $\lambda_{t}$ is strictly positive for all $t$. In this setting the survival probability is
-
-$$
-\mathbb{Q}_{t}[\tau>T]=\mathrm{e}^{a(T-t)-b(T-t) \lambda_{t}}
-$$
-
-where $a$ and $b$ are deterministic functions of time to maturity with
+\subsection{Pricing CDS}
+Let $\delta_{i}=T_{i}-T_{i-1}$. The protections buyer's cashflows are
 
 $$
 \begin{aligned}
-& a(T-t)=\frac{2 k \bar{\lambda}}{\sigma^{2}} \ln \left(\frac{2 \gamma \mathrm{e}^{\frac{1}{2}(\gamma+k)(T-t)}}{(\gamma+k)\left(\mathrm{e}^{\gamma(T-t)}-1\right)+2 \gamma}\right) \\
-& b(T-t)=\frac{2\left(\mathrm{e}^{\gamma(T-t)}-1\right)}{(\gamma+k)\left(\mathrm{e}^{\gamma(T-t)}-1\right)+2 \gamma}
+\pi^{\text {prem }} & =\E^{\Q}\left[\sum_{i=1}^{N} \exp \left(-\int_{0}^{T_{i}} r_{s} \d  s\right) \mathbb{1}_{\left\{\tau>T_{i}\right\}} s^{C D S}\left(T_{N}\right) \delta_{i}\right] \\
+& =s^{C D S}\left(T_{N}\right) \sum_{i=1}^{N} \delta_{i} \underbrace{\E^{\Q}\left[\exp \left(-\int_{0}^{T_{i}} r_{s}+\lambda_{s} \d  s\right)\right]}_{\text {price of defaultable ZCB, no recovery }} \\
+& =s^{C D S}\left(T_{N}\right) \sum_{i=1}^{N} \delta_{i} B_{0}^{T_{i}} \Q_{0}\left[\tau>T_{i}\right]
 \end{aligned}
 $$
 
-where $\gamma=\sqrt{k^{2}+2 \sigma^{2}}$.
-
-\section{Pricing defaultable bonds (zero recovery)}
-With stochastic intensities and interest rates it can be shown that with $R=0$
+The protection seller pays $(1-R) \cdot$ Notional if there is a default. (We abstract from settlement, liquidity and other issues). Assuming recovery rate $R$ constant, the protection seller's cashflows are
 
 $$
 \begin{aligned}
-\tilde{B}_{t}^{T} & =\mathbb{E}_{t}\left[\mathrm{e}^{-\int_{t}^{T} r_{s} \mathrm{~d} s} \mathbb{1}_{\{\tau>T\}}\right] \\
-& =\mathbb{E}_{t}\left[\mathbb{E}\left[\mathrm{e}^{-\int_{t}^{T} r_{s} \mathrm{~d} s} \mathbb{1}_{\{\tau>T\}} \mid \mathcal{G}_{T}\right]\right] \\
-& =\mathbb{E}_{t}\left[\mathbb{E}\left[\mathrm{e}^{-\int_{t}^{T} r_{s} \mathrm{~d} s} \mathbb{1}_{\left\{N_{T}=0\right\}} \mid \mathcal{G}_{T}\right]\right] \\
-& =\mathbb{E}_{t}\left[\mathbb{E}\left[\mathrm{e}^{-\int_{t}^{T} r_{s} \mathrm{~d} s} \mid \mathcal{G}_{T}\right] \mathbb{E}\left[\mathbb{1}_{\left\{N_{T}=0\right\}} \mid \mathcal{G}_{T}\right]\right] \\
-& =\mathbb{E}_{t}\left[\mathbb{E}\left[\mathrm{e}^{-\int_{t}^{T} r_{s} \mathrm{~d} s} \mid \mathcal{G}_{T}\right] \mathrm{e}^{-\int_{t}^{T} \lambda_{s} \mathrm{~d} s}\right] \\
-& =\mathbb{E}_{t}\left[\mathrm{e}^{-\int_{t}^{T} r_{s}+\lambda_{s} \mathrm{~d} s}\right]
+\pi^{\text {prot }} & =\E^{\Q}\left[\exp \left(-\int_{0}^{\tau} r_{s} \d  s\right) \mathbb{1}_{\left\{\tau \leq T_{N}\right\}}(1-R)\right] \\
+& =(1-R) \E^{\Q}\left[\int_{0}^{T_{N}} \lambda_{t} \exp \left(-\int_{0}^{t} r_{s}+\lambda_{s} \d  s\right) \d  t\right]
 \end{aligned}
 $$
 
-If the intensity process $\lambda_{t}$ and interest rate process $r_{t}$ are independent
+If $r$ and $\lambda$ are independent
 
 $$
-\tilde{B}_{t}^{T}=\mathbb{E}_{t}\left[\mathrm{e}^{-\int_{t}^{T} r_{s} \mathrm{~d} s}\right] \mathbb{E}_{t}\left[\mathrm{e}^{-\int_{t}^{T} \lambda_{s} \mathrm{~d} s}\right]=B_{t}^{T} \mathbb{Q}_{t}[\tau>T]
+\pi^{\text {prot }}=(1-R) \int_{0}^{T_{N}} B_{o}^{t} \Q_{0}[\tau>t] \hat{\lambda}_{t} \d  t
 $$
 
-as in the case with deterministic intensity.
+with $\hat{\lambda}(t)$ being the time-deterministic intensity (or expected intensity $\E_{0}^{\Q}\left[\lambda_{t}\right]$ ).\\
+Equating the two $\pi^{\text {prem }}=\pi^{\text {prot }}$ we obtain
+
+$$
+\begin{aligned}
+s^{C D S}\left(T_{N}\right) \sum_{i=1}^{N} \delta_{i} B_{0}^{T_{i}} \Q_{0}\left[\tau>T_{i}\right] & =(1-R) \int_{0}^{T_{N}} B_{o}^{t} \Q_{0}[\tau>t] \hat{\lambda}_{t} \d  t \\
+& \mathbb{I} \\
+s^{C D S}\left(T_{N}\right) & =\frac{(1-R) \int_{0}^{T_{N}} B_{o}^{t} \Q_{0}[\tau>t] \hat{\lambda}_{t} \d  t}{\sum_{i=1}^{N} \delta_{i} B_{0}^{T_{i}} \Q_{0}\left[\tau>T_{i}\right]}
+\end{aligned}
+$$
+
+If $\lambda$ is constant $\Q_{0}\left[\tau>T_{i}\right]=\e^{-\lambda T_{i}}$. If $\lambda$ is affine
+
+$$
+\Q_{0}\left[\tau>T_{i}\right]=\E^{\Q}\left[\e^{-\int_{0}^{T_{i}} \lambda_{s} \d  s}\right]=\e^{A\left(0, T_{i}\right)+B\left(0, T_{i}\right) \lambda_{0}}
+$$
+
+\subsection{Marking to market}
+To find the current value (time $t, t_{n-1} \leq t<t_{n}$ ) of the contract (an old one) from the perspective of the protection buyer, observe that
+
+$$
+V_{\text {old }}=V_{\text {old }}+V_{n e w},
+$$
+
+since the newly issued contract has zero market value. Thus
+
+$$
+\begin{aligned}
+V_{\text {old }} & =\pi_{\text {old }}^{\text {prot }}-\pi_{\text {old }}^{\text {prem }}-\left(\pi_{\text {new }}^{\text {prot }}-\pi_{\text {new }}^{\text {prem }}\right) \\
+& =\pi_{\text {new }}^{\text {prem }}-\pi_{\text {old }}^{\text {prem }} \\
+& =\sum_{i=1}^{N} B_{t}^{T_{i}} \Q_{t}\left[\tau>T_{i}\right] \delta_{i} s_{t}^{C D S}\left(T_{N}\right)-\sum_{i=1}^{N} B_{t}^{T_{i}} \Q_{t}\left[\tau>T_{i}\right] \delta_{i} s_{0}^{C D S}\left(T_{N}\right) \\
+& =\sum_{i=1}^{N} B_{t}^{T_{i}} \Q_{t}\left[\tau>T_{i}\right] \delta_{i}\left(s_{t}^{C D S}\left(T_{N}\right)-s_{0}^{C D S}\left(T_{N}\right)\right),
+\end{aligned}
+$$
+
+since $\pi_{\text {old }}^{\text {prot }}=\pi_{\text {new }}^{\text {prot }}$. From this it can be seen that the value of the contract from the perspective of the protection buyer increases as the CDS spread increases.
 
 \subsection{Additional stuff}
-Possion process: Let $N_{t}$ be a poisson process with intensity parameter $\lambda$ (this means $N_{t} \sim p o(\lambda t)$ ). Then
-
-$$
-\mathbb{Q}\left[N_{t}=k\right]=\frac{(\lambda t)^{k}}{k!} \mathrm{e}^{-\lambda t}
-$$
+Calibration: A short how to - We have market quotes $X_{t}=\left(x_{0}, x_{1}, \ldots, x_{n}\right)$ and closed form solution $\pi_{X}=f(\theta)$. What value of $\theta$ should we choose so $\pi_{X}(i)$ is close to $x_{i}$ for all $i=0,1, \ldots, n$ ?
 
