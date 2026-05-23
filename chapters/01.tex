@@ -4,18 +4,17 @@ interest payments and the eventual return of principal at maturity. The payments
 security are known in advance. Bonds are the most common form of fixed income securities.
 
 A derivative is an instrument which value is derived from a primary instrument (stocks, currency,
-bonds, other derivatives etc.) also called underlying instrument. (Derivative contracts divided into
-OTC-derivatives (over the counter) and stock exchange derivatives and symmetric and asymmetric
-derivatives). Derivatives are priced using Martingale pricing theory. Derivatives are effective
-tools for controlling risk. With them you can separate risk and trade it separately. Thus, can sell
-unwanted risk or buy risk to diversify the portfolio.
+bonds, other derivatives etc.) also called underlying instrument. Derivative contracts divided into
+OTC-derivatives (over the counter), stock exchange derivatives. Derivatives are priced using
+Martingale pricing theory. Derivatives are effective tools for controlling risk. With them you can
+separate risk and trade it separately. Enabeling traders to sell unwanted risk or buy risk to
+diversify the portfolio.
 
 \section{Forward contract}
-In a forward contract you agree to buy or sell an asset in a future period at a pre specified price,
-all agreed on the trade date. Symmetric, i.e. when the agreement is made, the value is zero for both
-parties. (Used to remove different kinds of risk (currency, interest rate), and speculating in
-rising or falling prices. Often OTC-product. Synthetic product, i.e. you do not own the underlying,
-hence a running compensation is made. (Most common: Currency forwards, forward rate agreements.)
+A forward contract is a contract, where two a buyer and a seller agree to trade an underlying asset
+in a future period at a price specified at the contracts inception. In order to have a single
+transaction, the price of a forward is such that the value is zero for both parties (Most
+common: Currency forwards, forward rate agreements.)
 
 \subsection{Pricing}
 A forward with maturity $T$ and delivery price $K$ provides a payoff of $P_{T}-K$ at time $T$ and no
@@ -30,55 +29,80 @@ forward price is
 \[
 F_{t}^{T}=\frac{\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u} P_{T}\right]}{B_{t}^{T}}
 \]
-If $P$ is the price of a traded asset that pays only at time $T,
-F_{t}^{T}=\frac{P_{t}}{B_{t}^{T}}$.
+Under the risk-neutral measure, the discounted asset price is a martingale. So for an asset with no
+dividends/cashflows before $T$ we have $ F_{t}^{T}=\frac{P_{t}}{B_{t}^{T}}$.
 
 \section{European options}
-European options provide a right to trade the underlying asset on expiration date for a pre
-specified (at time $t$ ) price $K$ (American options can be exercised on any date). For this
-opportunity a premium is paid. (Call is right to buy, Put is right to sell. Asymmetric due to traded
-premium on agreement. With a call option you speculate on rising prices, put is falling prices e.g.
-Can be used to remove risk for future stock trades.)
-
+European options provide right but not the obligation to trade the underlying asset on expiration
+date for a pre specified (at time $t$) price $K$ (American options can be exercised on any date).
+A Call is the right to buy, and a Put is the right to sell the asset. 
 \subsection{Pricing}
 Consider a call option with expiration date $T$ and strike $K$ on the underlying $P_{t}$. The payoff
-at time $T$ (and hence the call price at $T$ ) is
+at time $T$ (and hence the call price at $T$) is
 \[
 C_{T}=\max \left\{P_{T}-K, 0\right\}
 \]
-Remember, there exists an equivalent martingale measure $\mathbb{Q}$ so the asset price $P_{T}$ is a
-martingale (under the defined probability measure) using the bank account $A_{t}= \exp
-\left(\int_{0}^{t} r_{s} \mathrm{~d} s\right)$ as numeraire, i.e.
+In an arbitrage free market, there exists an equivalent martingale measure $\mathbb{Q}$ so the asset
+price $P_{T}$ is a martingale under the $\Q$. We may use the $T$-forward martingale measure
+$\Q^{T}$, which uses the zero-coupon bond expiring at time $T$, $B_{t}^{T}$, as numeraire. Then, (recall $B_{T}^{T}=1$)
 \[
-\frac{P_{t}}{A_{t}}=\mathbb{E}_{t}^{\mathbb{Q}}\left[\frac{P_{T}}{A_{T}}\right]
+  \frac{P_t}{B_t^{T}} = \E_t^{\Q^{T}}[P_T] \iff   P_{t}=B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[P_{T}\right]
 \]
-Using $B_{t}^{T}$ as numeraire (recall $B_{T}^{T}=1$ ) we have
-\[
-P_{t}=B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[P_{T}\right]
-\]
-with $\mathbb{Q}^{T}$ being the $T$-forward MG measure. Using this measure we can price the call
-option by
-\[
-\begin{aligned}
+ Using this measure we can derive a general pricing formula for a European call option:
+\begin{align*}
 C_{t} & =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\max \left\{P_{T}-K, 0\right\}\right] \\
 & =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}}\left(P_{T}-K\right)\right] \\
 & =B_{t}^{T}\left(\mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K \mathbb{Q}^{T}\left[P_{T}>K\right]\right) \\
 & =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K B_{t}^{T} \mathbb{Q}^{T}\left[P_{T}>K\right] \\
-& =P_{t} \mathbb{E}_{t}^{\mathbb{Q}^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \mathbb{Q}_{t}^{T}\left[P_{T}>K\right] \\
-& =P_{t} \mathbb{Q}_{t}^{P}\left[P_{T}>K\right]-K B_{t}^{T} \mathbb{Q}_{t}^{T}\left[P_{T}>K\right]
-\end{aligned}
-\]
-where $\mathbb{Q}^{P}$ is the MG measure using $P_{t}$ as numeraire.
+\text{(Change of numeraire)}\quad & =P_{t} \mathbb{E}_{t}^{\mathbb{Q}^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \mathbb{Q}_{t}^{T}\left[P_{T}>K\right] \\
+& =P_{t} \mathbb{Q}_{t}^{P}(P_{T}>K)-K B_{t}^{T} \mathbb{Q}_{t}^{T}(P_{T}>K)
+\end{align*}
+where $\mathbb{Q}^{P}$ is the MG measure using $P_{t}$ as numeraire. The proof is completely
+analogous for European puts, only we use the payoff $\max \{ K - P_t, 0 \}$. Note that the final
+probabilities correspond to the option being in the money under the two different equivalent
+martingale measures. 
 
-\section{Additional stuff}
+\section{Relevant results}
+
+
+\subsection{Bonds, Yields and Rates}
+
+\fxnote{Fill out this section}
+$\quad $
+
+\subsection{Other Fixed-Income securities}
+
+
+\begin{description}
+\item[Interest rate forwards, forward rate agreements (FRAs)] 
+\end{description}
+
+
+\fxnote{Add pricing formulas}
 \begin{description}
 \item[Future] 
 \end{description}
-When buying a future you get compensated everyday (continously) for the difference in the
-new future price. Therefore, you get implicitly the continous rate through the future price. (With a
-forward you only take into account the expected future rate. Thus, the difference is only the
-discounted covariance between the zero-coupon bond and the payment price at time $T$.) Future price:
-$\phi_{t}^{T}=\mathbb{E}^{\mathbb{Q}}\left[P_{T}\right]$.i
+Like a Forward, a Futures contract is a contract where the two parties agree to trade the underlying
+at a perspeciefed strike. The main difference is that futures are marked-to-market, at least daily.
+This means that the two counterparties continuously settle the difference between the previous
+futures price and the new future price. 
+
+Thus, you are implicitly exposed to the current interest rate, through the future price. 
+Whereas, with a forward you only take into account the expected future rate. 
+Thus, the difference in price between the two contracts is the discounted covariance between the
+zero-coupon bond and the payment price at time $T$. A Futures contract has value: 
+\[
+  \phi_{t}^{T}=\mathbb{E}^{\mathbb{Q}}\left[P_{T}\right]
+.\]
+
+\begin{description}
+\item[Futures on bonds] 
+\end{description}
+
+\begin{description}
+\item[Options on bonds] 
+\end{description}
+
 
 \begin{description}
 \item[Caps] 
@@ -118,9 +142,46 @@ Forward swap: Agreement to enter into a swap with a future starting date and fix
 set.
 
 \begin{description}
+\item[Forward swaps] 
+\end{description}
+An agreement to enter a swap at an agreed-upon future starting date $T_0$ and fixed rate. The
+forward swap rate $\tilde{L}_t^{\delta, T_0}$ is the fixed rate that solves $P_t = 0$ at time $t\le
+T$.
+
+\begin{description}
 \item[Swaptions] 
 \end{description}
 A European swaption gives its holder the right at the expiry date to enter into an
 interest rate swap that has a given fixed rate. A payer swaption gives the right to enter into a
 payer swap, and likewise for receiver swaption.
 
+\begin{description}
+\item[Repurchase agreements] 
+\end{description}
+
+Short term contracts used for lending money based on high-grade securities as collateral (government
+bonds). Low interest rate, but also (a bit) risky, as is might be difficult to renew loans in a
+distressed economy (think fall 2008, illuquidity).
+
+\begin{itemize}
+\item Parties agree on Prices $P_0$ and $P_T = P_0 (1+rT)$
+\item At time $t=0$, the security is traded at price $P_0$, and the security repurchased at time
+  $T$, using price $P_T$
+\end{itemize}
+The collateral reduces the lender’s exposure to counter party (credit) ris.  Repos are subject to
+daily margin calls if collateral value changes (like futures) 
+
+Financial crisis: some bank could not ''repay'' the repo due to a cut in funding by another bank
+(Goldman Sachs, GS), so not enough capital to do so. GS bought credit default swaps a few days
+before, so probably knew what was going to happen.
+
+
+
+
+
+
+
+
+
+
+\fxnote{Maybe a section on the different martingale measures we have seen}
