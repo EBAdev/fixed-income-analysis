@@ -1,0 +1,126 @@
+\chapter{Fixed Income Securities}
+A fixed income security is an investment that provides a return in the form of fixed periodic
+interest payments and the eventual return of principal at maturity. The payments of a fixed income
+security are known in advance. Bonds are the most common form of fixed income securities.
+
+A derivative is an instrument which value is derived from a primary instrument (stocks, currency,
+bonds, other derivatives etc.) also called underlying instrument. (Derivative contracts divided into
+OTC-derivatives (over the counter) and stock exchange derivatives and symmetric and asymmetric
+derivatives). Derivatives are priced using Martingale pricing theory. Derivatives are effective
+tools for controlling risk. With them you can separate risk and trade it separately. Thus, can sell
+unwanted risk or buy risk to diversify the portfolio.
+
+\section{Forward contract}
+In a forward contract you agree to buy or sell an asset in a future period at a pre specified price,
+all agreed on the trade date. Symmetric, i.e. when the agreement is made, the value is zero for both
+parties. (Used to remove different kinds of risk (currency, interest rate), and speculating in
+rising or falling prices. Often OTC-product. Synthetic product, i.e. you do not own the underlying,
+hence a running compensation is made. (Most common: Currency forwards, forward rate agreements.)
+
+\subsection{Pricing}
+A forward with maturity $T$ and delivery price $K$ provides a payoff of $P_{T}-K$ at time $T$ and no
+other payments. Here, $P$ is the underlying (typically the price of an asset or a specific interest
+rate). Then the time $t<T$ value of the payoff is
+\[
+V_{t}=\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u}\left(P_{T}-K\right)\right]=\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u} P_{T}\right]-K B_{t}^{T}
+\]
+By definition the forward price for immediate delivery is identical to the value of the underlying,
+i.e. $F_{T}^{T}=P_{T}$. The forward price is the value of $K$ that solves $V_{t}=0$, i.e. the
+forward price is
+\[
+F_{t}^{T}=\frac{\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{T} r_{u} \mathrm{~d} u} P_{T}\right]}{B_{t}^{T}}
+\]
+If $P$ is the price of a traded asset that pays only at time $T,
+F_{t}^{T}=\frac{P_{t}}{B_{t}^{T}}$.
+
+\section{European options}
+European options provide a right to trade the underlying asset on expiration date for a pre
+specified (at time $t$ ) price $K$ (American options can be exercised on any date). For this
+opportunity a premium is paid. (Call is right to buy, Put is right to sell. Asymmetric due to traded
+premium on agreement. With a call option you speculate on rising prices, put is falling prices e.g.
+Can be used to remove risk for future stock trades.)
+
+\subsection{Pricing}
+Consider a call option with expiration date $T$ and strike $K$ on the underlying $P_{t}$. The payoff
+at time $T$ (and hence the call price at $T$ ) is
+\[
+C_{T}=\max \left\{P_{T}-K, 0\right\}
+\]
+Remember, there exists an equivalent martingale measure $\mathbb{Q}$ so the asset price $P_{T}$ is a
+martingale (under the defined probability measure) using the bank account $A_{t}= \exp
+\left(\int_{0}^{t} r_{s} \mathrm{~d} s\right)$ as numeraire, i.e.
+\[
+\frac{P_{t}}{A_{t}}=\mathbb{E}_{t}^{\mathbb{Q}}\left[\frac{P_{T}}{A_{T}}\right]
+\]
+Using $B_{t}^{T}$ as numeraire (recall $B_{T}^{T}=1$ ) we have
+\[
+P_{t}=B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[P_{T}\right]
+\]
+with $\mathbb{Q}^{T}$ being the $T$-forward MG measure. Using this measure we can price the call
+option by
+\[
+\begin{aligned}
+C_{t} & =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\max \left\{P_{T}-K, 0\right\}\right] \\
+& =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}}\left(P_{T}-K\right)\right] \\
+& =B_{t}^{T}\left(\mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K \mathbb{Q}^{T}\left[P_{T}>K\right]\right) \\
+& =B_{t}^{T} \mathbb{E}_{t}^{\mathbb{Q}^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K B_{t}^{T} \mathbb{Q}^{T}\left[P_{T}>K\right] \\
+& =P_{t} \mathbb{E}_{t}^{\mathbb{Q}^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \mathbb{Q}_{t}^{T}\left[P_{T}>K\right] \\
+& =P_{t} \mathbb{Q}_{t}^{P}\left[P_{T}>K\right]-K B_{t}^{T} \mathbb{Q}_{t}^{T}\left[P_{T}>K\right]
+\end{aligned}
+\]
+where $\mathbb{Q}^{P}$ is the MG measure using $P_{t}$ as numeraire.
+
+\section{Additional stuff}
+\begin{description}
+\item[Future] 
+\end{description}
+When buying a future you get compensated everyday (continously) for the difference in the
+new future price. Therefore, you get implicitly the continous rate through the future price. (With a
+forward you only take into account the expected future rate. Thus, the difference is only the
+discounted covariance between the zero-coupon bond and the payment price at time $T$.) Future price:
+$\phi_{t}^{T}=\mathbb{E}^{\mathbb{Q}}\left[P_{T}\right]$.i
+
+\begin{description}
+\item[Caps] 
+\end{description}
+A cap protects a floating-rate borrower against the risk of paying very high interest rates.
+Work as a ceiling on the interest rate, compensating the holder if the rate rises above a specified
+level. Consists of a series of underlying options called caplets (call option on the spot interest
+rate).
+
+\begin{description}
+\item[Floors] 
+\end{description}
+A floor protects a floating-rate lender against the risk of receiving very low interest
+rates. Works like caps, consists of floorlets (put option on floating interest rate with delayed
+payment of the payoff).
+
+\begin{description}
+\item[Collars] 
+\end{description}
+A combination of caps and floors. Ensures that the interest rate payments on a floating
+rate borrowing arrangement stay between two prespecified levels. (Can be seen as a portfolio of a
+long position in a cap with rate $K_{c}$ and a short position in floor with rate $K_{f}$.)
+
+\begin{description}
+\item[Swaps] 
+\end{description}
+An interest rate swap is an exchange of two cash flow streams determined by certain interest
+rates. A plain vanilla interest rate swap takes two forms:
+
+\begin{itemize}
+  \item Payer swap: Pays a stream of fixed rate payments and recieves a stream of floating rate
+    payments.
+  \item Receiver swap: Pays a stream of floating rate payments and receives a stream of fixed rate
+    payments.
+\end{itemize}
+Forward swap: Agreement to enter into a swap with a future starting date and fixed rate already
+set.
+
+\begin{description}
+\item[Swaptions] 
+\end{description}
+A European swaption gives its holder the right at the expiry date to enter into an
+interest rate swap that has a given fixed rate. A payer swaption gives the right to enter into a
+payer swap, and likewise for receiver swaption.
+

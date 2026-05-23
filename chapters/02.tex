@@ -1,0 +1,145 @@
+\chapter{One-factor diffusion models}
+All one-factor models assume that the short rate is the only state variable (i.e. contains all relevant information about the term structure). Assume the short rate follows a diffusion process
+
+$$
+\mathrm{d} r_{t}=\alpha\left(r_{t}\right) \mathrm{d} t+\beta\left(r_{t}\right) \mathrm{d} z_{t}
+$$
+
+where $\left(z_{t}\right)_{t \geq 0}$ is a one-dimensional standard BM (under the real-world measure $\mathbb{P}$ ). The short rate dynamics under the risk-neutral measure $\mathbb{Q}$ is
+
+$$
+\mathrm{d} r_{t}=\hat{\alpha}\left(r_{t}\right) \mathrm{d} t+\beta\left(r_{t}\right) \mathrm{d} z_{t}^{\mathbb{Q}}
+$$
+
+with $\hat{\alpha}\left(r_{t}\right)=\alpha\left(r_{t}\right)-\beta\left(r_{t}\right) \lambda\left(r_{t}\right)$, with $\lambda$ being the market price of risk (risk premium per unit volatility). The models are time-homogeneous ( $\hat{\alpha}, \beta$ functions of $r_{t}$ and not $t$ ).
+
+\section{Affine models}
+A model is affine if the risk-neutral drift rate and the variance rate are affine functions of $r$, i.e.
+
+
+\begin{equation*}
+\hat{\alpha}\left(r_{t}\right)=\hat{\varphi}-\hat{\kappa} r, \quad \text { and } \quad \beta(r)^{2}=\delta_{1}+\delta_{2} r \geq 0, \tag{1}
+\end{equation*}
+
+
+where $\hat{\varphi}, \hat{\kappa}, \delta_{1}, \delta_{2}$ are constants. When $\hat{\alpha}$ and $\beta^{2}$ are linear in $r$ we can split the PDE into two ODEs.
+
+\section{Theorem 7.1 - Zero-coupon bond prices}
+In an affine model, zero-coupon bond prices are given by
+
+$$
+B_{t}^{T}=B^{T}(r, t)=\mathrm{e}^{-a(T-t)-b(T-t) r}
+$$
+
+where the functions $a(\tau)$ and $b(\tau)$ solve $a(0)=b(0)=0$ and
+
+
+\begin{align*}
+\frac{1}{2} \delta_{2} b(\tau)^{2}+\hat{\kappa} b(\tau)+b^{\prime}(\tau)-1 & =0  \tag{2}\\
+a^{\prime}(\tau)-\hat{\varphi} b(\tau)+\frac{1}{2} \delta_{1} b(\tau)^{2} & =0, \quad \tau>0
+\end{align*}
+
+
+(These ODEs are known as Ricatti equations. For certain parameters $a$ and $b$ can be found explicitly.)\\
+Proof. We will prove that the candidate for a solution is in fact a solution and then use the uniqueness of a solution for a PDE. Thus, we show that $B^{T}(r, t)$ solves the fundamental PDE ( $\mathcal{S}$ is value space of $r$ )
+
+
+\begin{align*}
+\frac{\partial B^{T}(r, t)}{\partial t}+\hat{\alpha}(r) \frac{\partial B^{T}(r, t)}{\partial r}+\frac{1}{2} \beta(r)^{2} \frac{\partial^{2} B^{T}(r, t)}{\partial r^{2}}-r B^{T}(r, t) & =0,  \tag{3}\\
+B^{T}(r, T) & =1, \quad(r, t) \in \mathcal{S} \times[0, T] .
+\end{align*}
+
+
+The terminal condition is obviously satisfied since
+
+$$
+B^{T}(r, T)=\mathrm{e}^{-a(0)-b(0) r}=1
+$$
+
+Next, we find the derivatives
+
+$$
+\begin{aligned}
+\frac{\partial B^{T}(r, t)}{\partial t} & =B^{T}(r, t)\left(a^{\prime}(T-t)+b^{\prime}(T-t) r\right), \\
+\frac{\partial B^{T}(r, t)}{\partial r} & =-B^{T}(r, t) b(T-t), \\
+\frac{\partial^{2} B^{T}(r, t)}{\partial r^{2}} & =B^{T}(r, t) b(T-t)^{2} .
+\end{aligned}
+$$
+
+Inserting in (3) and dividing by $B^{T}(r, t)$ we obtain
+
+$$
+a^{\prime}(T-t)+b^{\prime}(T-t) r-\hat{\alpha}(r) b(T-t)+\frac{1}{2} \beta(r)^{2} b(T-t)^{2}-r=0 .
+$$
+
+Using (1) and gathering terms we find
+
+$$
+\begin{aligned}
+& a^{\prime}(T-t)+b^{\prime}(T-t) r-(\hat{\varphi}-\hat{\kappa} r) b(T-t)+\frac{1}{2}\left(\delta_{1}+\delta_{2} r\right) b(T-t)^{2}-r=0 \\
+& \Downarrow \\
+& a^{\prime}(T-t)-\hat{\varphi} b(T-t)+\frac{1}{2} \delta_{1} b(T-t)^{2} \\
+& \quad+\left(b^{\prime}(T-t)+\hat{\kappa} b(T-t)+\frac{1}{2} \delta_{2} b(T-t)^{2}-1\right) r=0,
+\end{aligned}
+$$
+
+for all $(r, t) \in \mathcal{S} \times[0, T]$. Inserting $\tau=T-t$ we observe that the above holds when (2) holds.
+
+\subsection{Vasicek's model}
+Under $\mathbb{P}$ the short rate $r_{t}$ is driven by an Ornstein-Uhlenbeck process
+
+$$
+\mathrm{d} r_{t}=\kappa\left(\theta-r_{t}\right) \mathrm{d} t+\beta \mathrm{d} z_{t}
+$$
+
+where $\kappa, \theta$ and $\beta$ are positive constants. Given the market price of risk $\lambda(r, t)$, the Q-dynamics are
+
+$$
+\mathrm{d} r_{t}=\left[\kappa\left(\theta-r_{t}\right)-\beta \lambda(r, t)\right] \mathrm{d} t+\beta \mathrm{d} z_{t}^{\mathrm{Q}}=\kappa\left(\hat{\theta}-r_{t}\right) \mathrm{d} t+\beta \mathrm{d} z_{t}^{\mathrm{Q}}
+$$
+
+since Vasicek assume $\lambda(r, t)=\lambda$ constant $\left(\hat{\theta}=\theta-\frac{\beta \lambda}{\kappa}\right)$.
+
+\section{Properties}
+$r$ still OU process under $\mathbb{Q}$. Mean reverting (around $\hat{\theta}$ ). Gaussian, so $r_{T}$ takes negative values with positive probability, which is a drawback. Constant volatility. An affine model with $\hat{\varphi}=\kappa \hat{\theta}, \hat{\kappa}=\kappa, \delta_{1}=\beta^{2}$ and $\delta_{2}=0$, so the price of a zero-coupon bond is
+
+$$
+B^{T}(r, t)=\mathrm{e}^{-a(T-t)-b(T-t) r},
+$$
+
+where the equations in (2) can be solved.
+
+$$
+\left(b(\tau)=\frac{1}{\kappa}\left(1-\mathrm{e}^{-\kappa \tau}\right) \quad \text { and } \quad a(\tau)=\left(\hat{\theta}-\frac{\beta^{2}}{2 \kappa^{2}}\right)(\tau-b(\tau))+\frac{\beta^{2}}{4 \kappa} b(\tau)^{2}\right)
+$$
+
+\subsection{Additional stuff}
+Zero-coupon yields: For affine and Vasicek the yield curve satisfies
+
+$$
+y^{T}(r, t)=-\frac{\ln \left(B^{T}(r, t)\right)}{T-t}=\frac{a(T-t)}{T-t}+\frac{b(T-t)}{T-t} r .
+$$
+
+Affine function of the short rate. For $b(\tau)>0$ yields are increasing in the short rate, an increase in $r$ shifts the curve upwards (unless $b(\tau)$ proportional to $\tau$ ), prices decreasing in the short rate. Not all shapes are possible, cannot generate trough and twists.
+
+The instantaneous forward rates (at time $T$ ) for affine model (maybe Vasicek) is
+
+$$
+f^{T}(r, t)=-\frac{\frac{\partial B^{T}(r, t)}{\partial T}}{B^{T}(r, t)}=a^{\prime}(T-t)+b^{\prime}(T-t) r
+$$
+
+Cox-Ingersoll-Ross (CIR) model: Market price of risk is $\frac{\lambda \sqrt{r}}{\beta}$, Q-dynamics is square root proces
+
+$$
+\mathrm{d} r_{t}=\hat{\kappa}\left(\hat{\theta}-r_{t}\right) \mathrm{d} t+\beta \sqrt{r_{t}} \mathrm{~d} z_{t}^{\mathrm{Q}}
+$$
+
+Mean reverting (around $\hat{\theta}$ ). Non-negative interest rates, 0 is reflecting barrier. Affine with $\hat{\varphi}=\hat{\kappa} \hat{\theta}, \hat{\kappa}=\hat{\kappa}, \delta_{1}=0$ and $\delta_{2}=\beta^{2}$ (ODEs can be solved). Time varying volatility (increases with level).
+
+Generalized affine models: In Vasicek we assume the market price of risk is constant. Can let it be affine function of $r$ to allow for more flexibility. Still affine. Same way of thinking can be used for CIR.
+
+\section{Non-affine models:}
+\begin{itemize}
+  \item Quadratic models: Dynamics $r_{t}=x_{t}^{2}$ ( $x_{t}$ Ornstein-Uhlenbeck process). $a$ and $b$ as in affine case. 0 is refelcting barrier (disadvantage). $B^{T}(x, t)= \mathrm{e}^{-a(T-t)-b(T-t) x-c(T-t) x^{2}}$. Complicated closed form expressions for prices of derivatives.
+  \item Shadow-rate models: Dynamics $r_{t}=\max \left\{0, x_{t}\right\}, x_{t}$ OU process. Only nonnegative values. 0 is absorbing barrier (occurs in practice). Bond and derivative prices computed numerically.
+\end{itemize}

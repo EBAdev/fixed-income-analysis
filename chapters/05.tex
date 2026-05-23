@@ -1,0 +1,143 @@
+\chapter{Christensen, Diebold, Rudebusch (Affine arbitrage-free Nelson-Siegel models)}
+The usual Nelson-Siegel (NS) parameterization is simple to estimate, popular due to empirical success, but not dynamic and does not exclude arbitrage. Affine models theoretically appealing (arbitrage-free), not succesful empirically, estimation is nontrivial (lot of parameters).
+
+CDR, Journal of Econometrics: "The affine arbitrage-free class of Nelson-Siegel term structure models." Combines the two approaches. Introduce new class of affine models that are arbitrage-free and has the yield-curve of the NS parameterization. Denoted AFNS (arbitrage-free Nelson-Siegel). Their empirical analysis involves in-sample fit and out-of-sample forecasting of flexible and restricted versions of AFNS models. Three main conclusions:
+
+\begin{itemize}
+  \item Flexible versions do better in terms of in-sample fit.
+  \item Restricted versions perform better for out-of-sample forecasting.
+  \item Restricted versions beats the $\mathbb{A}_{0}(3)$ ( 0 volatility factors, 3 non-volatility factors) model of Duffee in forecasting.
+\end{itemize}
+
+\subsection{Nelson-Siegel}
+The original NS parameterization of the yield curve is
+
+$$
+y(\tau)=\beta_{0}+\beta_{1}\left(\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau}\right)+\beta_{2}\left(\frac{1-\mathrm{e}^{\lambda \tau}}{\lambda \tau}-\mathrm{e}^{-\lambda \tau}\right) .
+$$
+
+Interpretations of the four parameters:\\
+$-\beta_{0}$ is a constant, hence affects long term yields. (level)\\
+$-\beta_{1}$ affects short term rates since $\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau}$ is a decreasing function that starts a 1 and decays to 0 . (slope)\\
+$-\beta_{2}$ affects medium term rates since $\frac{1-\mathrm{e}^{\lambda \tau}}{\lambda \tau}-\mathrm{e}^{-\lambda \tau}$ starts at 0 , then increases and later decays to 0 . (curvature)\\
+$-\lambda$ is a scaling factor that affects the exponential decay rate.
+
+\section{AFNS model}
+The $\mathbb{Q}$-dynamics of the state variable $X_{t}$ is 3 -factor Gaussian
+
+$$
+\mathrm{d} X_{t}=\kappa^{\mathbb{Q}}\left(\theta^{\mathbb{Q}}-X_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} W_{t}^{\mathbb{Q}} .
+$$
+
+We assume that $r_{t}=\rho_{0}+\rho_{1}^{\prime} X_{t}$. The yield curve is given by
+
+$$
+y_{t}(\tau)=\frac{a(\tau)}{\tau}+\sum_{j=1}^{3} \frac{b_{j}(\tau)}{\tau} X_{t}^{j},
+$$
+
+where the simplified ODE of $b=\left(b_{1}, b_{2}, b_{3}\right)$ is
+
+$$
+b^{\prime}(\tau)=-\left(\kappa^{\mathbb{Q}}\right)^{\prime} b(\tau)+\rho_{1}, \quad b(0)=0
+$$
+
+(the last term disappears since we have constant covariance matrix)\\
+Theorem (main result for AFNS models). Let $\lambda>0, r_{t}=X_{t}^{1}+X_{t}^{2}$, where the dynamics of $\left(X_{t}^{1}, X_{t}^{2}, X_{t}^{3}\right)^{\prime}$ are
+
+$$
+\left(\begin{array}{l}
+\mathrm{d} X_{t}^{1} \\
+\mathrm{~d} X_{t}^{2} \\
+\mathrm{~d} X_{t}^{3}
+\end{array}\right)=\left(\begin{array}{ccc}
+0 & 0 & 0 \\
+0 & \lambda & -\lambda \\
+0 & 0 & \lambda
+\end{array}\right)\left[\left(\begin{array}{c}
+\theta_{1}^{\mathrm{Q}} \\
+\theta_{2}^{\mathrm{Q}} \\
+\theta_{3}^{\mathrm{Q}}
+\end{array}\right)-\left(\begin{array}{c}
+X_{t}^{1} \\
+X_{t}^{2} \\
+X_{t}^{3}
+\end{array}\right)\right] \mathrm{d} t+\Sigma\left(\begin{array}{l}
+\mathrm{d} W_{t}^{1, \mathrm{Q}} \\
+\mathrm{~d} W_{t}^{2, \mathrm{Q}} \\
+\mathrm{~d} W_{t}^{3, \mathrm{Q}}
+\end{array}\right) .
+$$
+
+Then the yield curve is given by
+
+$$
+y_{t}(\tau)=X_{t}^{1}+\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau} X_{t}^{2}+\left(\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau}-\mathrm{e}^{-\lambda \tau}\right) X_{t}^{3}-\frac{A(\tau)}{\tau}
+$$
+
+where $A$ is the solution of a certain ODE.\\
+Proof. The ODE $b^{\prime}(\tau)=-\left(\kappa^{\mathbb{Q}}\right)^{\prime} b(\tau)+\rho_{1}$ (here $\rho_{1}=(1,1,0)^{\prime}$ ) is equivalent to
+
+$$
+\begin{aligned}
+& b_{1}^{\prime}(\tau)=1 \\
+& b_{2}^{\prime}(\tau)=-\lambda b_{2}(\tau)+1 \\
+& b_{3}^{\prime}(\tau)=\lambda b_{2}(\tau)-\lambda b_{3}(\tau)
+\end{aligned}
+$$
+
+Since $b(0)=0$ we have
+
+$$
+b_{1}(\tau)=\tau, \quad \text { and } \quad b_{2}(\tau)=\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda}
+$$
+
+Using the value of $b_{2}$ we obtain
+
+$$
+b_{3}(\tau)=\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda}-\tau \mathrm{e}^{-\lambda \tau}
+$$
+
+Will skip the last factor (yield-adjustment term), but it is computed by plugging $b_{1}, b_{2}, b_{3}$ into the multifactor Ricatti ODE for $A$ and integrating.
+
+The above only considers the $\mathbb{Q}$-dynamics of $X_{t}$. For the $\mathbb{P}$-dynamics we use the essentially affine models from Duffee. In the Gaussian case we have $\lambda_{t}=\lambda_{1}+\lambda_{2} X_{t}$, so the $\mathbb{P}$-dynamics become
+
+$$
+\mathrm{d} X_{t}=\kappa^{\mathbb{P}}\left(\theta^{\mathbb{P}}-X_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} W_{t}^{\mathbb{P}}
+$$
+
+Although the $\mathbb{Q}$-dynamics was restricted (e.g. zero terms in $\kappa^{\mathrm{Q}}$ ) we can choose ( $\lambda_{1}, \lambda_{2}$ ) appropriately to get any $\kappa^{\mathbb{P}}$ and $\theta^{\mathbb{P}}$.
+
+\subsection{Additional stuff}
+\section{Dynamic NS:}
+$$
+y_{t}(\tau)=L_{t}+S_{t}\left(\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau}\right)+C_{t}\left(\frac{1-\mathrm{e}^{-\lambda \tau}}{\lambda \tau}-\mathrm{e}^{-\lambda \tau}\right)
+$$
+
+where $L_{t}, S_{t}, C_{t}$ represent level, slope and curvature factors $\left(=\beta_{0 t}, \beta_{1 t}, \beta_{2 t}\right)$. There are two DNS models: $L_{t}, S_{t}, C_{t}$ first order autroregression and $L_{t}, S_{t}, C_{t}$ first order vector autoregression. The DNS model has the transition equation
+
+$$
+\left(\begin{array}{c}
+L_{t}-\mu_{L} \\
+S_{t}-\mu_{S} \\
+C_{t}-\mu_{C}
+\end{array}\right)=A\left(\begin{array}{c}
+L_{t-1}-\mu_{L} \\
+S_{t-1}-\mu_{S} \\
+C_{t-1}-\mu_{C}
+\end{array}\right)+\left(\begin{array}{c}
+\eta_{t}(L) \\
+\eta_{t}(S) \\
+\eta_{t}(C)
+\end{array}\right)
+$$
+
+where $\eta$ are noises.\\
+Estimations from article: The article estimates four models:
+
+\begin{itemize}
+  \item Independent-factor AFNS (diagonal $\kappa$ and diagonal $\Sigma$ ).
+  \item Correlated-factor AFNS (full $\kappa$ and lower triangular $\Sigma$ ).
+  \item Independent-factor DNS (diagonal $A$ and independent noises).
+  \item Correlated-factor DNS (full $A$ and correlated noises).
+\end{itemize}
+

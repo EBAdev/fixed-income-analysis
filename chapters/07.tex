@@ -1,0 +1,144 @@
+\chapter{Calibration of diffusion models}
+With time-homogeneous models the yield curve $y_{t}^{\tau}$ only depends on maturity (which is reasonable). However, we cannot perfectly match the observed yield curve (undesirable fact for derivatives trading). Therefore, we will focus on the time-inhomogeneous models
+
+$$
+\mathrm{d} r_{t}=\hat{\alpha}\left(r_{t}, t\right) \mathrm{d} t+\hat{\beta}\left(r_{t}, t\right) \mathrm{d} z_{t}^{\mathrm{Q}}
+$$
+
+specifically the affine subset where
+
+$$
+\hat{\alpha}\left(r_{t}, t\right)=\hat{\varphi}(t)-\hat{\kappa}(t) r_{t}, \quad \hat{\beta}\left(r_{t}, t\right)=\sqrt{\delta_{1}(t)+\delta_{2}(t) r_{t}}
+$$
+
+The pricing function for a zero-coupon bond is given by
+
+$$
+B^{T}\left(r_{t}, t\right)=\mathrm{e}^{-a(t, T)-b(t, T) r_{t}}
+$$
+
+where
+
+$$
+\begin{array}{r}
+\frac{1}{2} \delta_{2}(t) b(t, T)^{2}+\hat{\kappa}(t) b(t, T)-\frac{\partial b(t, T)}{\partial t}-1=0 \\
+\frac{\partial a(t, T)}{\partial t}+\hat{\varphi}(t) b(t, T)-\frac{1}{2} \delta_{1}(t) b(t, T)^{2}=0
+\end{array}
+$$
+
+with terminal conditions $a(T, T)=b(T, T)=0$. It is proven by showing that the pricing function
+
+$$
+\frac{\partial B^{T}(r, t)}{\partial t}+\hat{\alpha}\left(r_{t}, t\right) \frac{\partial B^{T}(r, t)}{\partial r}+\frac{1}{2} \hat{\beta}\left(r_{t}, t\right)^{2} \frac{\partial^{2} B^{T}(r, t)}{\partial r^{2}}-r B^{T}(r, t)=0
+$$
+
+along with $B^{T}(r, T)=1$ is satisfied (look at terminal condition, find derivatives and plug in and observe that it is satisfied for the above equations).
+
+We now have that $a(\cdot)$ and $b(\cdot)$ depend on both calender time $t$ and maturity $T$. The above equations can be hard to solve of all parameters depend on $t$. If we only want to match the current yield curve it is enough to let $\hat{\varphi}(t)$ be time dependent and leave the other constant. With this, the yield curve volatility will only depend on time to maturity (reasonable, since volatility is approximately stable). The $\tau$-maturity yield satisfies
+
+$$
+y_{t}^{t+\tau}=\frac{a(t, t+\tau)}{\tau}+\frac{b(t, t+\tau)}{\tau} r_{t}
+$$
+
+Hence, its dynamics have the form (Itô)
+
+$$
+\mathrm{d} y_{t}^{t+\tau}=[\ldots] \mathrm{d} t+\frac{b(t, t+\tau)}{\tau} \beta\left(r_{t}, t\right) \mathrm{d} z_{t}
+$$
+
+The price of the $\tau$-maturity zero-coupon bond is
+
+$$
+B_{t}^{t+\tau}=\mathrm{e}^{-a(t, t+\tau)-b(t, t+\tau) r_{t}}
+$$
+
+with dynamics (Itô)
+
+$$
+\mathrm{d} B_{t}^{t+\tau}=[\ldots] \mathrm{d} t-B_{t}^{t+\tau} b(t, t+\tau) \beta\left(r_{t}, t\right) \mathrm{d} z_{t}
+$$
+
+Ideally we want $b(t, t+\tau) \beta\left(r_{t}, t\right)$ not to depend on $t$. By choosing appropriate parameters as constants $\left(\delta_{1}, \delta_{2}, \hat{\kappa}\right)$ we solve this. Obvious for $\beta$ and the ODE of $b(t, T)$ becomes
+
+$$
+\frac{1}{2} \delta_{2} b(t, T)^{2}+\hat{\kappa} b(t, T)-\frac{\partial b(t, T)}{\partial t}-1=0
+$$
+
+This is the same as for the time-homogeneous case $(b(t, T)=b(T-t))$. So, by choosing appropriate parameters as constant $y_{t}^{t+\tau}$ and $B_{t}^{t+\tau}$ only depend on $\tau$ and not calender time $t$.
+
+Given time dependent $\hat{\varphi}(t)$, let's solve the ODE of $a(t, T)$. Using $a(T, T)=0$, integration gives $(b(t, T)=b(T-t))$
+
+$$
+a(t, T)=\int_{t}^{T} \hat{\varphi}(t) b(T-u) \mathrm{d} u-\frac{1}{2} \delta_{1} \int_{t}^{T} b(T-u)^{2} \mathrm{~d} u
+$$
+
+We denote the current (time 0 ) price observed in the market of a $T$-bond with $\bar{B}(T)$ (i.e. $B_{0}^{T}=\bar{B}(T)$ ). To match the market price, for any $T$ we require
+
+$$
+\bar{B}(T)=\exp \left(-a(0, T)-b(T) r_{0}\right) \Longleftrightarrow a(0, T)=-\ln (\bar{B}(T))-b(T) r_{0}
+$$
+
+(Compare with $a(t, T)$ above with $t=0$ ). For some models the functions $\hat{\varphi}(t)$ and $a(t, T)$ can be computed in closed form. For other, numerical approximations are needed.
+
+We have managed to match the current yield curve. To obtain a model that is consistent with the current volatility of the yield curve and prices of liquid bonds and derivatives (caps, floors, etc.), we have to pay the price of having 2 or 3 time dependent parameters. (Extended Vasicek, 2 time dependent parameters can match current yield curve and current yield volatilities.)
+
+\subsection{Additional stuff}
+Ho-Lee model: (Extended Merton), the $\mathbb{Q}$-dynamics are
+
+$$
+\mathrm{d} r_{t}=\hat{\varphi}(t) \mathrm{d} t+\beta \mathrm{d} z_{t}^{\mathrm{Q}}
+$$
+
+Bond prices are
+
+$$
+B^{T}\left(r_{t}, t\right)=\mathrm{e}^{-a(t, T)-b(T-t) r_{t}}
+$$
+
+with
+
+$$
+b(\tau)=\tau, \quad a(t, T)=\int_{t}^{T} \hat{\varphi}(u)(T-u) \mathrm{d} u-\frac{1}{2} \beta^{2} \int_{t}^{T}(T-u)^{2} \mathrm{~d} u
+$$
+
+Let $t \mapsto \bar{f}(t)$ be the current term structure of forward rates and be diffrentiable. Moreover, suppose that for all $t$
+
+$$
+\hat{\varphi}(t)=\frac{\partial \bar{f}(t)}{\partial t}+\beta^{2} t
+$$
+
+Then the Ho-Lee model will reproduce the current term structure, and we obtain
+
+$$
+a(t, T)=-\ln \left(\frac{\bar{B}(T)}{\bar{B}(t)}\right)-(T-t) \bar{f}(t)+\frac{1}{2} \beta^{2} t(T-t)^{2}
+$$
+
+Extended Vasicek model: (Hull-White), the $\mathbb{Q}$-dynamics are
+
+$$
+\mathrm{d} r_{t}=\left(\hat{\varphi}(t)-\kappa r_{t}\right) \mathrm{d} t+\beta \mathrm{d} z_{t}^{\mathrm{Q}}
+$$
+
+with bond price
+\[ 
+B^{T}(r_t, t) = e^{-a(t,T) - b(T-t)r_t}
+.\]
+Here ($b(\tau)$ as in the Varsicek model)
+\[ 
+b(\tau) = \frac{1-e^{-\kappa \tau}}{\kappa}, \quad 
+a(t,T) = \int_{t}^{T} \hat{\phi}(u) b(T-u) \d u + \frac{1}{2} \beta^2 \int_{t}^{T} b(T-u)^2  \d u
+.\]
+Let $t \mapsto \overline{f}(t)$ be the current term structure of forward rates and be
+differentiable. Then
+\[ 
+\hat{\phi}(t) = \overline{f}(t) + \frac{1}{\kappa} \frac{\partial \overline{f}(t)}{\partial t} +
+\frac{\beta^2}{1\kappa^2 } (1-e^{-2\kappa t})
+,\]
+will math the current term structure and we have:
+\[ 
+a(t,T) = - \ln\left( \frac{\overline{B}(T)}{\overline{B}(t)}  \right) - b(T-t) \overline{f}(t) + 
+\frac{\beta^2}{1\kappa}b(T-t)^2 (1-e^{-2\kappa t})
+.\]
+
+
+

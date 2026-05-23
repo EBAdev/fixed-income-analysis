@@ -1,0 +1,207 @@
+\chapter{Kim and Singleton (Quadratic and shadow rate models)}
+The affine model class has been the workhorse for studying interest rates so far. Its tractability and richness in theory are some of the benefits. The recent financial crisis brought us into uncharted territory - near zero (or negative) rates for an extended period. So which models are suitable for dealing with near zero rates?
+
+KS, Journal of Econometrics: "Term structure models and the zero-lower bound: An empirical investigation of Japanese yields." They study three classes of 2-factor models which imply non-negative interest rates: Affine multi-factor CIR model, quadratic model, shadow-rate model. Their analysis show that the latter two are very succesful in capturing the distribution of Japanese yields. Affine 2 -factor CIR performs worse.
+
+\section{Theory (for all models)}
+Under no arbitrage, the price of a $\tau$-year zero-coupon bond is
+
+$$
+P_{\tau}\left(x_{t}\right)=\mathbb{E}_{t}^{\mathbb{Q}}\left[\mathrm{e}^{-\int_{t}^{t+\tau} r\left(x_{s}\right) \mathrm{d} s}\right]
+$$
+
+The dynamics of the state variable are
+
+$$
+\mathrm{d} x_{t}=\mu^{\mathbb{Q}}\left(x_{t}\right) \mathrm{d} t+\Sigma\left(x_{t}\right) \mathrm{d} B_{t}^{\mathbb{Q}}=\left(\mu^{\mathbb{Q}}\left(x_{t}\right)+\Sigma\left(x_{t}\right) \lambda\left(x_{t}\right)\right) \mathrm{d} t+\Sigma\left(x_{t}\right) \mathrm{d} B_{t}^{\mathbb{P}}
+$$
+
+The instantaneous yield volatility is
+
+$$
+\sigma_{t, \tau}=\left(\frac{\partial y_{\tau}\left(x_{t}\right)}{\partial x_{t}^{\prime}} \Sigma\left(x_{t}\right) \Sigma\left(x_{t}\right)^{\prime} \frac{\partial y_{\tau}\left(x_{t}\right)}{\partial x_{t}}\right)^{\frac{1}{2}} .
+$$
+
+The instantaneous expected excess return is
+
+$$
+\rho_{t, \tau}=-\tau \frac{\partial y_{\tau}\left(x_{t}\right)}{\partial x_{t}^{\prime}} \Sigma\left(x_{t}\right) \lambda\left(x_{t}\right)
+$$
+
+\subsection{Quadratic-Gaussian models}
+The 2 -factor quadratic-Gaussian model is given by
+
+$$
+\begin{aligned}
+r_{t} & =x_{t}^{\prime} \Phi x_{t} \\
+\mathrm{~d} x_{t} & =\kappa^{\mathrm{Q}}\left(\theta^{\mathrm{Q}}-x_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} B_{t}^{\mathrm{Q}} \\
+\lambda_{t} & =\lambda_{a}+\Lambda_{b} x_{t}
+\end{aligned}
+$$
+
+where $\Phi, \kappa^{\mathrm{Q}}, \Sigma, \Lambda_{b}$ are $2 \times 2$ and $\theta^{\mathrm{Q}}, \lambda_{a}$ are $2 \times 1$ matrices. (Note: $x_{t}$ is a Gaussian model, i.e. in $\left.\mathbb{A}_{0}(2)\right)$. The yield of maturity $\tau$ is
+
+$$
+y_{t, \tau}=a_{\tau}+b_{\tau}^{\prime} x_{t}+x_{t}^{\prime} C_{\tau} x_{t}
+$$
+
+To ensure non-negative $r_{t}$ we assume that $\Phi$ is symmetric positive semi-definite, which means (note $D_{11}, D_{22} \geq 0$ )
+
+$$
+\Phi=A D A^{\prime}=\left[\begin{array}{cc}
+1 & 0 \\
+A_{21} & 1
+\end{array}\right]\left[\begin{array}{cc}
+D_{11} & 0 \\
+0 & D_{22}
+\end{array}\right]\left[\begin{array}{cc}
+1 & A_{21} \\
+0 & 1
+\end{array}\right]
+$$
+
+This gives
+
+$$
+r_{t}=D_{11}\left(x_{1 t}+A_{21} x_{2 t}\right)^{2}+D_{22} x_{2 t}^{2}
+$$
+
+If $D_{11}, D_{22}>0$ we have
+
+$$
+r_{t}=0 \Longrightarrow x_{1 t}=x_{2 t}=0 \Longrightarrow y_{t, \tau}=a_{\tau},
+$$
+
+which is constant and we want to avoid. So one of $x_{1 t}, x_{2 t}$ should be free (non-zero). A solution is choosing $D_{22}=0 \Longrightarrow x_{2 t}$ is free. Short rate, yields volatilities and excess return satisfy
+
+$$
+\begin{aligned}
+\sigma_{t} & =2\left(x_{t}^{\prime} \Phi \Sigma \Sigma^{\prime} \Phi x_{t}\right)^{\frac{1}{2}} \\
+\sigma_{t, \tau} & =\left(\left(b_{\tau}+2 C_{\tau} x_{t}\right)^{\prime} \Sigma \Sigma^{\prime}\left(b_{\tau}+2 C_{\tau} x_{t}\right)\right)^{\frac{1}{2}} \\
+\rho_{t, \tau} & =-\tau\left(b_{\tau}+2 C_{\tau} x_{t}\right)^{\prime} \Sigma\left(\lambda_{a}+\Lambda_{b} x_{t}\right)
+\end{aligned}
+$$
+
+Additionally, $r_{t}=0$ implies $\sigma_{t}=0$ and $\sigma_{t, \tau}, \rho_{t, \tau} \approx 0$ for small $\tau$.
+
+\subsection{Shadow-rate models}
+Here,
+
+$$
+r_{t}=\max \left\{s_{t}, 0\right\}
+$$
+
+where $s_{t}$ is some (shadow) stochastic process. When $r_{t}$ touches zero it stays there for some time, hence zero is an absorbing barrier for $r_{t}$. For $s_{t}$ we consider the following 3-factor model
+
+$$
+\begin{aligned}
+s_{t} & =\rho+\gamma^{\prime} x_{t}+x_{t}^{\prime} \Phi x_{t} \\
+\mathrm{~d} x_{t} & =\kappa^{\mathrm{Q}}\left(\theta^{\mathrm{Q}}-x_{t}\right) \mathrm{d} t+\Sigma \mathrm{d} B_{t}^{\mathrm{Q}} \\
+\lambda_{t} & =\lambda_{a}+\Lambda_{b} x_{t}
+\end{aligned}
+$$
+
+where $\rho$ is a constant and $\Phi, \kappa^{\mathbb{Q}}, \Sigma, \Lambda_{b}$ are $2 \times 2$ and $\gamma, \theta^{\mathbb{Q}}, \lambda_{a}$ are $2 \times 1$ matrices.\\
+Letting $P(t, x)$ be the price of a zero-coupon bond maturing at $T$ Munk inplies
+
+$$
+\frac{\partial P}{\partial t}+\left(\kappa^{\mathbb{Q}}\left(\theta^{\mathbb{Q}}-x_{t}\right)\right)^{\prime} \frac{\partial P}{\partial x}+\frac{1}{2} \operatorname{tr}\left(\frac{\partial^{2} P}{\partial x^{2}} \Sigma \Sigma^{\prime}\right)-\max \{s(x), 0\}=0
+$$
+
+with $P(T, x)=1$ for all $x$. (By a change of variable, we get the PDE from the article). Due to the nonlinear term $\max \{s(x), 0\}$ we cannot solve the PDE explicitly (numerical methods include finite difference (KS use this), Monte Carlo, trees). No explicit formulas for volatilities and excess returns either. For understanding let's consider the 1 -factor model
+
+$$
+\begin{aligned}
+r_{t} & =\max \left\{s_{t}, 0\right\} \\
+\mathrm{d} s_{t} & =\kappa^{\mathbb{P}}\left(\theta^{\mathbb{P}}-s_{t}\right) \mathrm{d} t+\sigma \mathrm{d} B_{t}^{\mathbb{P}} \\
+\lambda_{t} & =\bar{\lambda}
+\end{aligned}
+$$
+
+If $s_{t}>0$ then the short rate $\sigma_{t}=\sigma$ and if $s_{t} \leq 0$ then $\sigma_{t}=0$, so there is a discontinuity in volatility at $s_{t}=0$. We also have
+
+$$
+\sigma_{t, \tau}=\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}} \sigma, \quad \rho_{t, \tau}=-\tau \frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}} \sigma \bar{\lambda}
+$$
+
+Additional comments: When $s_{t}=0$ we have $r_{t}=0$ and $\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}}>0$. Thus, $\sigma_{t, \tau}$ and $\rho_{t, \tau}$ stay away from 0 even for small $\tau$. Also, when $s_{t} \rightarrow-\infty$ we have $r_{t}=0$ and $\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}}$ tends to 0 . When $s_{t} \rightarrow \infty$ the term $\frac{\partial y_{\tau}\left(s_{t}\right)}{\partial s_{t}}$ becomes constant.
+
+\section{Additional stuff}
+Affine models: The 2 -factor CIR model ( $\mathbb{A}_{2}(2)$ ) with $\mathbb{Q}$-dynamics
+
+$$
+\left[\begin{array}{l}
+\mathrm{d} x_{1 t} \\
+\mathrm{~d} x_{2 t}
+\end{array}\right]=\left[\begin{array}{ll}
+\kappa_{11}^{\mathrm{Q}} & \kappa_{12}^{\mathrm{Q}} \\
+\kappa_{21}^{\mathrm{Q}} & \kappa_{22}^{\mathrm{Q}}
+\end{array}\right]\left(\left[\begin{array}{l}
+\theta_{1}^{\mathrm{Q}} \\
+\theta_{2}^{\mathrm{Q}}
+\end{array}\right]-\left[\begin{array}{l}
+x_{1 t} \\
+x_{2 t}
+\end{array}\right]\right) \mathrm{d} t+\left[\begin{array}{cc}
+\sqrt{x_{1 t}} & 0 \\
+0 & \sqrt{x_{2 t}}
+\end{array}\right]\left[\begin{array}{l}
+\mathrm{d} B_{1 t}^{\mathrm{Q}} \\
+\mathrm{~d} B_{2 t}^{\mathrm{Q}}
+\end{array}\right],
+$$
+
+where
+
+$$
+\left[\kappa^{\mathbb{Q}} \theta^{\mathbb{Q}}\right]_{i}>0, \quad \kappa_{i i}^{\mathbb{Q}}>0, \quad i=1,2, \quad \text { and } \quad \kappa_{12}^{\mathbb{Q}}, \kappa_{21}^{\mathbb{Q}}<0
+$$
+
+Assume
+
+$$
+r_{t}=\gamma_{1} x_{1 t}+\gamma_{2} x_{2 t}, \quad \text { with } \quad \gamma_{1}, \gamma_{2} \geq 0
+$$
+
+The yield of a $\tau$-year bond is
+
+$$
+y_{t, \tau}=a_{\tau}+b_{1, \tau} x_{1 t}+b_{2, \tau} x_{2 t}
+$$
+
+where
+
+$$
+a_{\tau}=\frac{a(\tau)}{\tau}, \quad b_{1, \tau}=b_{1, \tau}=\frac{b_{1}(\tau)}{\tau}, \quad b_{2, \tau}=\frac{b_{2}(\tau)}{\tau} .
+$$
+
+Consider to specifications for the market price of risk (completely affine and extended affine)
+
+$$
+\lambda_{c a}=\left[\begin{array}{l}
+\Lambda_{11} \sqrt{x_{1 t}} \\
+\Lambda_{22} \sqrt{x_{2 t}}
+\end{array}\right], \quad \lambda_{e a}=\left[\begin{array}{l}
+\left(\lambda_{1}+\Lambda_{11} x_{1 t}+\Lambda_{12} x_{2 t}\right) / \sqrt{x_{1 t}} \\
+\left(\lambda_{2}+\Lambda_{21} x_{1 t}+\Lambda_{22} x_{2 t}\right) / \sqrt{x_{2 t}}
+\end{array}\right]
+$$
+
+Short rate and yield volatilities are
+
+$$
+\begin{aligned}
+\sigma_{t} & =\left(\gamma_{1}^{2} x_{1 t}+\gamma_{2}^{2} x_{2 t}\right)^{\frac{1}{2}} \\
+\sigma_{t, \tau} & =\left(b_{1, \tau}^{2} x_{1 t}+b_{2, \tau} x_{2 t}\right)^{\frac{1}{2}}
+\end{aligned}
+$$
+
+Expected excess returns are given by
+
+$$
+\begin{aligned}
+\rho_{t, \tau, c a} & =-\tau\left(b_{1, \tau} \Lambda_{11} x_{1 t}+b_{2, \tau} \Lambda_{22} x_{2 t}\right) \\
+\rho_{t, \tau, e a} & =-\tau\left[b_{1, \tau}\left(\lambda_{1}+\Lambda_{11} x_{1 t}+\Lambda_{12} x_{2 t}\right)+b_{2, \tau}\left(\lambda_{2}+\Lambda_{21} x_{1 t}+\Lambda_{22} x_{2 t}\right)\right]
+\end{aligned}
+$$
+

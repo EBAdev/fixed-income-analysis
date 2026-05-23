@@ -1,0 +1,98 @@
+\chapter{Structural models of default}
+One framework to model credit risk (default risk) is structural models (most intuitive). Here, the value of the firm is modeled explicitly. Useful for corporations to determine corporate finance related decisions, e.g. optimal debt capital structure, decision to default, etc.
+
+One has to use models when no replicating portfolio exists, the replicating portfolio consists of illiquid instruments (prices are unreliable), or in the case of multi-name derivatives the transaction costs explode when setting up the replicating portfolio (CDO with more than 100 underlying names).
+
+\subsection{Black-Scholes-Merton model}
+Assume a firm is financed by one zero-coupon bond with face value $F$ and maturity $T$ (the present value of this liability equals $\tilde{B}_{t}$ ) and one equity share with time $t$ value $S_{t}$. The basic idea of the BSM model is to define default as the situation when the asset value of the firm is less than the face value of the debt at maturity of the debt, $V_{t}<F$. Thus, time of deafult is
+
+$$
+\tau= \begin{cases}T, & \text { if } V_{T}<F \\ \infty, & \text { if } V_{T} \geq F\end{cases}
+$$
+
+The payouts associated with debt and equity have the following representation
+
+$$
+\begin{aligned}
+\tilde{B}_{T} & =\min \left\{F, V_{T}\right\}=F-\max \left\{F-V_{T}, 0\right\} \\
+S_{T} & =\max \left\{V_{T}-F, 0\right\}
+\end{aligned}
+$$
+
+The valuation of these reduce to valuation of European put and call options
+
+$$
+\begin{aligned}
+\tilde{B}_{t} & =\mathrm{e}^{r(T-t)} F-p\left(t, V_{t} ; T, F\right) \\
+& =\mathrm{e}^{r(T-t)} F-\left(c\left(t, V_{t} ; T, F\right)-V_{t}+\mathrm{e}^{r(T-t)} F\right) \\
+& =V_{t}-c\left(t, V_{t} ; T, F\right) \\
+S_{t} & =c\left(t, V_{t} ; T, F\right)=V_{t}-\mathrm{e}^{r(T-t)} F+p\left(t, V_{t} ; T, F\right),
+\end{aligned}
+$$
+
+using the put-call parity. To find these prices we need to impose some assumptions and dynamics on the underlying asset value process $V_{t}$.
+
+Model assumptions: No transaction costs or taxes. Trading takes place continuously in time. The borrowing and lending interest rate are the same and constant $r$, i.e. $R(t, T)=r$ for all $t$ and $T$. No restrictions on short selling. No arbitrage opportunities in the market. The firm value $V_{t}$ is a traded asset and follows a geometric BM
+
+$$
+\mathrm{d} V_{t}=\mu V_{t} \mathrm{~d} t+\sigma V_{t} \mathrm{~d} W_{t}
+$$
+
+where $\mu$ is the drift, $\sigma$ the volatility of the Wiener process.\\
+To arrive at the risk neutral dynamics we just need to adjust the drift so it is equal to the interest rate $r$
+
+$$
+\mathrm{d} V_{t}=r V_{t} \mathrm{~d} t+\sigma V_{t} \mathrm{~d} W_{t}
+$$
+
+We know that the asset value is $\log$-normal, so the risk neutral default probability is
+
+$$
+\begin{aligned}
+\mathbb{Q}[\tau<\infty] & =\mathbb{Q}\left[V_{T}<F\right] \\
+& =\mathbb{Q}\left[V_{0} \mathrm{e}^{\left(r-\frac{1}{2} \sigma^{2}\right) T+\sigma W_{T}}<F\right] \\
+& =\mathbb{Q}\left[\left(r-\frac{1}{2} \sigma^{2}\right) T+\sigma W_{T}<\ln \left(\frac{F}{V_{0}}\right)\right] \\
+& =\mathbb{Q}\left[W_{T}<\frac{\ln \left(\frac{F}{V_{0}}\right)-\left(r-\frac{1}{2} \sigma^{2}\right) T}{\sigma}\right] \\
+& =\mathbb{Q}\left[W_{1}<\frac{\ln \left(\frac{F}{V_{0}}\right)-\left(r-\frac{1}{2} \sigma^{2}\right) T}{\sigma \sqrt{T}}\right] \\
+& =\Phi\left(\frac{\ln \left(\frac{F}{V_{0}}\right)-\left(r-\frac{1}{2} \sigma^{2}\right) T}{\sigma \sqrt{T}}\right),
+\end{aligned}
+$$
+
+where $\Phi(\cdot)$ is the standard normal cumulative distribution function.
+
+$$
+\mathbb{Q}_{t}[\tau<\infty]=\Phi\left(\frac{\ln \left(\frac{F}{V_{t}}\right)-\left(r-\frac{1}{2} \sigma^{2}\right)(T-t)}{\sigma \sqrt{T-t}}\right)
+$$
+
+We have the well known Black-Scholes formula for the price of a call option, so the debt and equity values are
+
+$$
+\begin{aligned}
+\tilde{B}_{t} & =V_{t}-c\left(t, V_{t} ; T, F\right)=V_{t}-\left(V_{t} \Phi\left(d_{1}\right)-\mathrm{e}^{-r(T-t)} F \Phi\left(d_{2}\right)\right) \\
+S_{t} & =c\left(t, V_{t} ; T, F\right)=V_{t} \Phi\left(d_{1}\right)-\mathrm{e}^{-r(T-t)} F \Phi\left(d_{2}\right)
+\end{aligned}
+$$
+
+where
+
+$$
+\begin{aligned}
+d_{1} & =\frac{1}{\sigma \sqrt{T-t}}\left(\ln \left(\frac{V_{t}}{F}\right)+\left(r+\frac{1}{2} \sigma^{2}\right)(T-t)\right) \\
+d_{2} & =d_{1}-\sigma \sqrt{T-t}
+\end{aligned}
+$$
+
+\subsection{Additional stuff}
+Credit spread: The credit spread on a corporate bond is the difference between the yield to maturity of the bond deducted the yield on a bond with the same characteristics. Thus, the credit spread in the BSM model is
+
+$$
+\begin{aligned}
+\zeta_{t}^{T} & =\tilde{y}_{t}^{T}-y_{t}^{T} \\
+& =\frac{1}{T-t} \ln \left(\frac{F}{\tilde{B}_{t}^{T}}\right)-r \\
+& =-\frac{1}{T-t} \ln \left(\frac{1}{l_{t}} \Phi\left(-d_{1}\right)+\Phi\left(d_{2}\right)\right)
+\end{aligned}
+$$
+
+where $l_{t}=\frac{\mathrm{e}^{-r(T-t)} F}{V_{t}}$ is the firms leverage ratio. Furthermore, $\frac{\mathrm{d} S(t, T)}{\mathrm{d} l_{t}}>0$, meaning the spread is increasing in the leverage ratio (unrealistic?).
+
+Black-Cox model: A critique point of the BSM model is that a company cannot default before maturity. In The Black-Cox model a company defaults if the value of the assets falls below some exogenously given barrier.

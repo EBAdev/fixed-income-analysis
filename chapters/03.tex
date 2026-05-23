@@ -1,0 +1,144 @@
+\chapter{Multi-factor diffusion models}
+Introduces multi-factor models as one-factor models has several limitations: Cannot generate trough
+and twists of the yield curve, any changes in two yields or bond prices will be perfectly correlated
+(change in short yield affects long yield). How many factors do we need? PCA with US bond data shows
+that first factor (level) explains about $85 \%$ of the variation in yields, second factor (slope)
+about $10 \%$, third factor (curvature) about $2 \%$. So we need at least two factors.
+
+\subsection{Affine models}
+Let $\boldsymbol{x}_{t}=\left(x_{1 t}, x_{2 t}, \ldots, x_{n t}\right)^{T}$ be a vector of state
+variables. The $\mathbb{Q}$-dynamics are
+$$
+\mathrm{d} \boldsymbol{x}_{t}=\left(\hat{\varphi}-\hat{\kappa} \boldsymbol{x}_{t}\right) \mathrm{d} t+\Gamma \sqrt{\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)} \mathrm{d} \boldsymbol{z}_{t}^{\mathrm{Q}}
+$$
+
+where $\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)$ is the diagonal matrix
+
+$$
+\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)=\left[\begin{array}{cccc}
+v_{0,1}+\mathbf{v}_{1,1}^{T} \boldsymbol{x}_{t} & 0 & \cdots & 0 \\
+0 & v_{0,2}+\mathbf{v}_{1,2}^{T} \boldsymbol{x}_{t} & \cdots & 0 \\
+\vdots & \vdots & \ddots & 0 \\
+0 & 0 & \cdots & v_{0, n}+\mathbf{v}_{1, n}^{T} \boldsymbol{x}_{t}
+\end{array}\right]
+$$
+
+For admissibility we require $v_{0, i}+\mathbf{v}_{1, i}^{T} \boldsymbol{x}_{t} \geq 0$ for all $i$ and $\boldsymbol{x}_{t} \in \mathbb{R}^{n}$. The short rate is affine in the state variables, i.e.
+
+$$
+r_{t}=\xi_{0}+\xi^{T} \boldsymbol{x}_{t}
+$$
+
+Using the $n \times 1$ vector $\bar{\lambda}$, the market price of risk assumption is
+
+$$
+\lambda\left(\boldsymbol{x}_{t}\right)=\sqrt{\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)} \bar{\lambda}
+$$
+
+Then the $\mathbb{P}$-dynamics take the same form, i.e.
+
+$$
+\mathrm{d} \boldsymbol{x}_{t}=\left(\varphi-\kappa \boldsymbol{x}_{t}\right) \mathrm{d} t+\Gamma \sqrt{\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)} \mathrm{d} \boldsymbol{z}_{t}
+$$
+
+where $\varphi=\hat{\varphi}+\Gamma \psi, \kappa=\hat{\kappa}-\Gamma \Psi$ with
+
+$$
+\psi=\left[\begin{array}{c}
+\bar{\lambda}_{1} v_{0,1} \\
+\bar{\lambda}_{2} v_{0,2} \\
+\vdots \\
+\bar{\lambda}_{n} v_{0, n}
+\end{array}\right], \quad \text { and } \quad \Psi=\left[\begin{array}{c}
+\bar{\lambda}_{1} \mathbf{v}_{1,1}^{T} \\
+\bar{\lambda}_{2} \mathbf{v}_{1,2}^{T} \\
+\vdots \\
+\bar{\lambda}_{n} \mathbf{v}_{1, n}^{T}
+\end{array}\right]
+$$
+
+\section{Pricing and characterization}
+The price of a zero-coupon bond are given by
+
+$$
+B_{t}^{T}=B^{T}\left(x_{t}, t\right)=\mathrm{e}^{-a(T-t)-b(T-t)^{T} x_{t}}
+$$
+
+where the functions $a(\tau)$ and $b(\tau)$ solve $a(0)=b(0)=0$ and
+
+$$
+\begin{aligned}
+& b^{\prime}(\tau)=-\hat{\kappa}^{T} b(\tau)-\frac{1}{2} \sum_{i=1}^{n}\left[\Gamma^{T} b(\tau)\right]_{i}^{2} v_{1, i}+\xi \\
+& a^{\prime}(\tau)=\hat{\varphi}^{T} b(\tau)-\frac{1}{2} \sum_{i=1}^{n}\left[\Gamma^{T} b(\tau)\right]_{i}^{2} v_{0, i}+\xi_{0}
+\end{aligned}
+$$
+
+Note: $n+1$ ODEs, solution: Find $b(\tau)$ from the first and then integrate the second to obtain $a(\tau)$.
+
+We divide $n$-factor affine models into $n+1$ categories. For each $m \in\{0,1, \ldots, n\}$ the class $\mathbb{A}_{m}(n)$ is described by
+
+\begin{itemize}
+  \item The first $m$ factors affect the volatility $\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)$, and are known as volatility factors.
+  \item The remaining $n-m$ do not affect $\boldsymbol{V}\left(\boldsymbol{x}_{t}\right)$ and are known as non-volatility factors. Vasicek is $\mathbb{A}_{0}(1)$ model, CIR is $\mathbb{A}_{1}(1)$. We need to be careful about the admissibility requirement.
+\end{itemize}
+
+For the volatility factors we impose (to ensure admissibility)\\
+$-\varphi_{i}>0, \quad \kappa_{i i}>0, \quad$ for mean reversion.\\
+$-\kappa_{i j}=0$, for $j=m+1, \ldots, n, \quad \kappa_{i j} \leq 0$, for $j=1, \ldots, m$, with $j \neq i$.\\
+$-x_{i}$ must only be sensitive to $\mathrm{d} z_{i t}$ with volatility proportional to $\sqrt{x_{i t}}$.\\
+This leads to
+
+$$
+\mathrm{d} x_{i t}=\left(\varphi_{i}-\sum_{j=1}^{n} \kappa_{i j} x_{j t}\right) \mathrm{d} t+\Gamma_{i i} \sqrt{x_{i t}} \mathrm{~d} z_{i t} .
+$$
+
+In words: Volatility factors are instantaneously uncorrelated square root processes. But they are not necessarily independent because volatility factors affect each others drifts (positively). Also, the volatility factors cannot be dependent on the non-volatlity factors (they may be negative).
+
+For the non-volatility factors we impose
+
+\begin{itemize}
+  \item Drift rate may depend on all factors.
+  \item The sensitivity to the volatility shocks $\mathrm{d} z_{j t}$ must be proportional to $\sqrt{x_{j t}}(j= 1,2, \ldots, m)$.
+  \item The sensitivity to non-volatility shocks $\mathrm{d} z_{j t}(j=m+1, \ldots, n)$ is
+\end{itemize}
+
+$$
+\Gamma_{i i} \sqrt{v_{0, j}+\sum_{k=1}^{m} v_{1, j k} x_{k t}} \text {, }
+$$
+
+with $v_{0, j}, v_{1, j k} \geq 0$.\\
+This leads to
+
+$$
+\mathrm{d} x_{i t}=\left(\varphi_{i}-\sum_{j=1}^{n} \kappa_{i j} x_{j t}\right) \mathrm{d} t+\sum_{j=1}^{m} \Gamma_{i j} \sqrt{x_{j t}} \mathrm{~d} z_{j t}+\sum_{j=m+1}^{n} \Gamma_{i j} \sqrt{v_{0, j}+\sum_{k=1}^{m} v_{1, j k} x_{k t}} \mathrm{~d} z_{j t} .
+$$
+
+\subsection{Additional stuff}
+Generalized affine models: The idea is to allow a general market price of risk, which gives more flexible setting when estimating model parameters.\\
+Completely affine models:
+
+$$
+\begin{aligned}
+r_{t} & =\xi_{0}+\xi^{T} x_{t} \\
+\mathrm{~d} x_{t} & =\left(\hat{\varphi}-\hat{\kappa} x_{t}\right) \mathrm{d} t+\Gamma \sqrt{\boldsymbol{V}\left(x_{t}\right)} \mathrm{d} z_{t}^{\mathrm{Q}} \\
+\lambda\left(x_{t}\right) & =\sqrt{\boldsymbol{V}\left(x_{t}\right)} \bar{\lambda}
+\end{aligned}
+$$
+
+The market price of risk is affected only by volatility factors.
+
+Essentially affine models:
+
+$$
+\lambda_{t}=\sqrt{\boldsymbol{V}\left(x_{t}\right)} \bar{\lambda}_{1}+\sqrt{\boldsymbol{V}\left(x_{t}\right)^{-}} \bar{\lambda}_{2} x_{t}
+$$
+
+where $\boldsymbol{V}\left(x_{t}\right)^{-}$is diagonal matrix (broadly speaking the inverse of $\boldsymbol{V}\left(x_{t}\right)$ ). Here, the non-valotility factors can also affect the market price of risk.\\
+Extended affine models:
+
+$$
+\sqrt{\boldsymbol{V}\left(x_{t}\right)} \lambda_{t}=\bar{\lambda}_{1}+\bar{\lambda}_{2} x_{t}
+$$
+
+with restrictions in $\bar{\lambda}_{2}$ to ensure that the process for $x_{t}$ is well-defined under $\mathbb{Q}$ and $\mathbb{P}$. Offers more flexibility for the volatility factors on the market price of risk.
+
