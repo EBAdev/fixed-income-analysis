@@ -3,7 +3,7 @@ All one-factor models assume that the short rate is the only state variable. Tha
 all relevant information about the term structure. Assume the short rate follows a diffusion
 process
 \[
-\d  r_{t}=\alpha\left(r_{t}\right) \d  t+\beta\left(r_{t}\right) \d  z_{t}
+\d  r_{t}=\alpha\left(r_{t}\right) \d t+\beta\left(r_{t}\right) \d z_{t}
 \]
 where $\left(z_{t}\right)_{t \geq 0}$ is a one-dimensional standard Brownian motion (under the
 real-world measure $\P$). The short rate dynamics under the risk-neutral measure
@@ -15,23 +15,25 @@ where $\hat{\alpha}\left(r_{t}\right)=\alpha\left(r_{t}\right)-\beta\left(r_{t}\
 \lambda\left(r_{t}\right)$, and where $\lambda$ is the market price of risk (risk premium per unit
 volatility). 
 
-Note that these models are called \emph{time homogeneous} since $\hat{\alpha}, \beta$ only depend on
-time through $r_{t}$ and not $t$.
+Note that these models are called \emph{time homogeneous} since $\hat{\alpha}, \beta$ do not depend
+explicitly on calendar time $t$.
 
 \section{Affine models}
-A model is affine if the risk-neutral drift rate and the variance rate are affine functions of $r$, i.e.
+A model is affine if the risk-neutral drift and the variance coefficients are affine functions of
+the state variable, $r_t$, i.e. 
 \begin{equation}
-\hat{\alpha}\left(r_{t}\right)=\hat{\varphi}-\hat{\kappa} r, \quad \text { and } \quad \beta(r)^{2}=\delta_{1}+\delta_{2} r \geq 0,
+\hat{\alpha}\left(r_{t}\right)=\hat{\varphi}-\hat{\kappa} r_t, \quad \text { and } \quad
+\beta(r)^{2}=\delta_{1}+\delta_{2} r_t \geq 0,
 \label{eq:02-affine}
 \end{equation}
 where $\hat{\varphi}, \hat{\kappa}, \delta_{1}, \delta_{2}$ are constants. When $\hat{\alpha}$ and
 $\beta^{2}$ are linear in $r$ we can split the PDE into two ODEs.
 
-\section{Main proof}
+\subsection{ZCB Prices in Affine Models}
 \begin{theorem*}[7.1 (Zero-Coupon Bond Prices)]
 In an affine model, zero-coupon bond prices are given by
 \[
-B_{t}^{T}=B^{T}(r, t)=\e^{-a(T-t)-b(T-t) r}
+B_{t}^{T}=B^{T}(r_t, t)=\e^{-a(T-t)-b(T-t) r_t}
 ,\]
 where the functions $a(\tau)$ and $b(\tau)$ solve $a(0)=b(0)=0$ and
 \begin{align}
@@ -41,13 +43,13 @@ where the functions $a(\tau)$ and $b(\tau)$ solve $a(0)=b(0)=0$ and
 a^{\prime}(\tau)-\hat{\varphi} b(\tau)+\frac{1}{2} \delta_{1} b(\tau)^{2} & =0, \quad \tau>0
 \notag
 \end{align}
-\emph{These ODEs are known as Ricatti equations. For certain parameters $a$ and $b$ can be found
+\emph{These ODEs are known as Riccati equations. For certain parameters, $a$ and $b$ can be found
 explicitly.}
 \end{theorem*}
 \begin{proof}
- We prove that the candidate for a solution, is a solution and then use the uniqueness
- of a solution for a PDE. Thus, we show that $B^{T}(r, t)$ solves the fundamental PDE ($\mathcal{S}$
- is state space of $r$)
+ We prove that the candidate for a solution, is a solution of the fundamental PDE and then use that
+ under standard regulariy the boundary value problem has a unique solution. 
+ The fundamental PDE of $B^{T}(r, t)$ is ($\mathcal{S}$ is state space of $r$):
 \begin{align}
 \frac{\partial B^{T}(r, t)}{\partial t}
 +\hat{\alpha}(r) \frac{\partial B^{T}(r, t)}{\partial r}
@@ -85,7 +87,7 @@ Inserting $\tau=T-t$ we observe that the above holds when \Cref{eq:02-ricatti} h
 \qed
 \end{proof}
 
-\section{Vasicek's model}
+\section{Varsicek's model}
 In Varsicek's model we assume that the short rate $r_{t}$ is driven by an Ornstein-Uhlenbeck process
 under $\P$:
 \[
@@ -127,7 +129,7 @@ a(\tau)=\left(\hat{\theta}-\frac{\beta^{2}}{2 \kappa^{2}}\right)(\tau-b(\tau))
 \begin{description}
 \item[Zero-Coupon yields] 
 \end{description}
-For affine and Vasicek the yield curve satisfies
+For affine and Varsicek the yield curve satisfies
 \[
 y^{T}(r, t)=-\frac{\ln \left(B^{T}(r, t)\right)}{T-t}=\frac{a(T-t)}{T-t}+\frac{b(T-t)}{T-t} r .
 \]
@@ -135,7 +137,7 @@ Affine function of the short rate. For $b(\tau)>0$ yields are increasing in the 
 increase in $r$ shifts the curve upwards (unless $b(\tau)$ proportional to $\tau$ ), prices
 decreasing in the short rate. Not all shapes are possible, cannot generate trough and twists.
 
-The instantaneous forward rates (at time $T$) for affine model (maybe Vasicek) is
+The instantaneous forward rates (at time $T$) for affine model (maybe Varsicek) is
 \[
 f^{T}(r, t)=-\frac{\frac{\partial B^{T}(r, t)}{\partial T}}{B^{T}(r,
 t)}=a^{\prime}(T-t)+b^{\prime}(T-t) r
@@ -155,7 +157,7 @@ $\delta_{2}=\beta^{2}$ (ODEs can be solved). Time varying volatility (increases 
 \begin{description}
 \item[Generalized affine models] 
 \end{description}
-In Vasicek we assume the market price of risk is constant. Can let it be affine function of $r$ to
+In Varsicek we assume the market price of risk is constant. Can let it be affine function of $r$ to
 allow for more flexibility. Still affine. Same way of thinking can be used for CIR.
 
 \begin{description}

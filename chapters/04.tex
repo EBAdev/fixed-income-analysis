@@ -1,143 +1,143 @@
 \chapter{Estimation}
-The formulas in this course rely on some model parameters, which in practice need to be estimated. For this, we consider Kalman filter based qausi maximum likelihood (QML). Kalman filter is used to update the distribution of the state variables $x_{t}$ and QML is used to maximize the log-likelihood. We have two cases: Observed $x_{t}$ and unobserved $x_{t}$.
+The formulas in this course rely on some model parameters, which in practice need to be estimated.
+For this, we consider Kalman filter based qausi maximum likelihood (QML). The Kalman filter is used
+to update the distribution of the state variables $x_{t}$ and QML is used to maximize the
+log-likelihood. We have two cases: Observed $x_{t}$ and unobserved $x_{t}$.
 
-\begin{itemize}
-  \item Observed: Assume $x_{t}$ has Vasicek $\P$-dynamics
-\end{itemize}
-
-$$
+\begin{description}
+  \item[Observed]
+\end{description}
+Assume $x_{t}$ has Vasicek $\P$-dynamics
+\[
 \d  x_{t}=\kappa\left(\theta-x_{t}\right) \d  t+\beta \d  z_{t}
-$$
+\]
+and we have sample $\left\{x_{1}, \ldots, x_{T}\right\}$. Simple MLE can be applied (since it's
+Gaussian). Typically we do not observe $x_{t}$, if we for instance try to model the short rate. We
+can also only estimate $\P$-model parameters and not the market price of risk.
 
-and we have sample $\left\{x_{1}, \ldots, x_{T}\right\}$. Simple MLE can be applied (since it's Gaussian). Typically we do not observed $x_{t}$, if we for instance try to model the short rate. We can also only estimate $\P$-model parameters and not the market price of risk.
-
-\begin{itemize}
-  \item Unobserved: Assume $x_{t}$ has Vasicek $\P$-dynamics
-\end{itemize}
-
-$$
+\begin{description}
+  \item[Unobserved]
+\end{description}
+Assume $x_{t}$ has Vasicek $\P$-dynamics
+\[
 \d  x_{t}=\kappa\left(\theta-x_{t}\right) \d  t+\beta \d  z_{t}
-$$
-
+\]
 In the multi-factor affine model we have the yield
-
-$$
+\[
 y_{t}(\tau)=A_{\tau}+B_{\tau}^{\prime} x_{t}
-$$
+\]
+and we observe $y_{t}(\tau)$ for $t \in\{1, \ldots, T\}$ and $\tau \in\left\{\tau_{1}, \ldots,
+\tau_{N}\right\}$. A Kalman filter is then used to update the distribution of $x_{t}$. In particular
+from $t=1$ to $t=T$ we sequentially update mean and variance of Gaussian $x_{t}$ as we observe new
+$y_{t}$. Then find parameters by maximizing log-likelihood (QML). This way, we can estimate both
+$\P$ and $\Q$ parameters and market price of risk $\lambda$.
 
-and we observe $y_{t}(\tau)$ for $t \in\{1, \ldots, T\}$ and $\tau \in\left\{\tau_{1}, \ldots, \tau_{N}\right\}$. Kalman filter is then used to update the distribution of $x_{t}$. In particular from $t=1$ to $t=T$ we sequentially update mean and variance of Gaussian $x_{t}$ as we observe new $y_{t}$. Then find parameters by maximizing log-likelihood (QML). This way, we can estimate both $\P$ and $\Q$ parameters and market price of risk $\lambda$.
-
-\subsection{State space system}
+\section{State space system}
 Linear state space system has two equations, measurement and transition
-
-$$
-\begin{aligned}
+\begin{align*}
 y_{t} & =A+B x_{t}+\varepsilon_{t}, \quad \varepsilon_{t} \sim N(0, H) \\
 x_{t} & =C+D x_{t-1}+\eta_{t}, \quad \eta_{t} \sim N(0, Q)
-\end{aligned}
-$$
+\end{align*}
+The measurement equation is similar to the affine equations between yields and state variables. If
+we have $N$ maturities of yields and $k$ state variables $A$ is a $N \times 1$ matrix and $B$ is $N
+\times k . \varepsilon_{t}$ is measurement error (deviations of observed data from model implied
+prices). We use $\Q$-dynamics of $x_{t}$.
 
-The measurement equation is similar to affine equation between yields and state variables. If we have $N$ maturities of yields and $k$ state variables $A$ is a $N \times 1$ matrix and $B$ is $N \times k . \varepsilon_{t}$ is measurement error (deviations of observed data from model implied prices). We use $\Q$-dynamics of $x_{t}$.
+The transition equation describes the dynamics of the state variables only. $C$ is $k \times 1, D$
+and $Q$ is $k \times k$. $\eta_{t}$ is innovation error. Here, we use the $\P$-dynamics of $x_{t}$.
 
-The transition equation describes the dynamics of the state variables only. $C$ is $k \times 1, D$ and $Q$ is $k \times k . \eta_{t}$ is innovation error. Here, we use the $\P$-dynamics of $x_{t}$.
+\section{Kalman filter estimation}
+Will consider Kalman filter estimation for the unobserved case. We assume Gaussian distribution of
+$x_{t}$ and update it sequentially. It contains three steps: Initialization, prediction and
+update.
 
-\subsection{Kalman filter estimation}
-Will consider Kalman filter estimation for the unobserved case. We assume Gaussian distribution of $x_{t}$ and update it sequentially. It contains three steps: Initialization, prediction and update.\\
-Initialization step: The initial distribution is
-
-$$
+\begin{description}
+\item[Initialization step] 
+\end{description}
+The initial distribution is
+\[
 x_{0} \sim N\left(x_{0 \mid 0}, \Sigma_{0 \mid 0}\right)
-$$
-
-where $x_{0 \mid 0}=\E\left[x_{0}\right]$ and $\Sigma_{0 \mid 0}=\mathbb{V}\left[x_{0}\right]$ are unconditional mean and variance of stationary state variable $x_{t}$.\\
-Prediction step: In this step we predict $x_{t}$ given observations available at time $t-1$, i.e. $Y_{t-1}=\left\{y_{1}, \ldots, y_{t-1}\right\}$. From the previous point in time we have
-
-$$
+\]
+where $x_{0 \mid 0}=\E\left[x_{0}\right]$ and $\Sigma_{0 \mid 0}=\mathbb{V}\left[x_{0}\right]$ are
+unconditional mean and variance of stationary state variable $x_{t}$.
+\begin{description}
+\item[Prediction step] 
+\end{description}
+ In this step we predict $x_{t}$ given observations available at time $t-1$, i.e.
+ $Y_{t-1}=\left\{y_{1}, \ldots, y_{t-1}\right\}$. From the previous point in time we have
+\[
 x_{t-1} \mid Y_{t-1} \sim N\left(x_{t-1 \mid t-1}, \Sigma_{t-1 \mid t-1}\right)
-$$
-
+\]
 The transition equation implies
-
-$$
+\[
 x_{t} \mid Y_{t-1} \sim N\left(x_{t \mid t-1}, \Sigma_{t \mid t-1}\right)
-$$
-
+\]
 where
-
-$$
-\begin{aligned}
+\begin{align*}
 x_{t \mid t-1} & =\E\left[x_{t} \mid Y_{t-1}\right]=C+D \E\left[x_{t-1} \mid Y_{t-1}\right]=C+D x_{t-1 \mid t-1} \\
 \Sigma_{t \mid t-1} & =\mathbb{V}\left[x_{t} \mid Y_{t-1}\right]=D \mathbb{V}\left[x_{t-1} \mid Y_{t-1}\right] D^{\prime}+Q=D \Sigma_{t-1 \mid t-1} D^{\prime}+Q
-\end{aligned}
-$$
+\end{align*}
 
-Update step: Here, we update $x_{t}$ given the additional observation $y_{t}$, so information set is $Y_{t}=\left\{y_{1}, \ldots, y_{t}\right\}$. From the prediction step we know that
-
-$$
+\begin{description}
+\item[Update step] 
+\end{description}
+ Here, we update $x_{t}$ given the additional observation $y_{t}$, so information set is
+ $Y_{t}=\left\{y_{1}, \ldots, y_{t}\right\}$. From the prediction step we know that
+\[
 x_{t} \mid Y_{t-1} \sim N\left(x_{t \mid t-1}, \Sigma_{t \mid t-1}\right)
-$$
-
+\]
 We update the distribution of $x_{t}$ as
-
-$$
+\[
 x_{t} \mid Y_{t} \sim N\left(x_{t \mid t}, \Sigma_{t \mid t}\right)
-$$
-
+\]
 where
-
-$$
-\begin{aligned}
+\begin{align*}
 x_{t \mid t} & =\E\left[x_{t} \mid Y_{t}\right] \\
 \Sigma_{t \mid t} & =\mathbb{V}\left[x_{t \mid t-1} \mid Y_{t}\right] \\
 & =\Sigma_{t \mid t-1} B^{\prime} F_{t}^{-1} v_{t} \\
 & =\Sigma_{t \mid t-1} B^{\prime} F_{t}^{-1} B \Sigma_{t \mid t-1}
-\end{aligned}
-$$
-
+\end{align*}
 with
-
-$$
+\[
 v_{t}=y_{t}-\E\left[y_{t} \mid Y_{t-1}\right], \quad \text { and } \quad F_{t}=\mathbb{V}\left[v_{t} \mid Y_{t-1}\right]=B \Sigma_{t \mid t-1} B^{\prime}+H
-$$
-
+\]
 (If $y_{t}$ away from the mean the updated mean should go up. The data $y_{t}$ is seen in $v_{t}$ )
 
-\subsection{Additional stuff}
-Maximum likelihood: Given discrete observations $\left\{y_{1}, \ldots, y_{T}\right\}$ ( $y_{t}$ a $N \times 1$ vector) we want to estimate parameters $\psi$. The joint density can be decomposed to
+\subsection{Relevant results}
 
-$$
+\begin{description}
+\item[Maximum likelihood] 
+\end{description}
+ Given discrete observations $\left\{y_{1}, \ldots, y_{T}\right\}$ ( $y_{t}$ a $N \times 1$ vector)
+ we want to estimate parameters $\psi$. The joint density can be decomposed to
+\[
 f\left(y_{1}, \ldots, y_{T}\right)=\prod_{t=2}^{T} f\left(y_{t} \mid y_{1}, \ldots, y_{t-1}\right) f\left(y_{1}\right)
-$$
-
-Denoting $Y_{t-1}=\left\{y_{1}, \ldots, y_{t-1}\right\}$ and $Y_{0}=\emptyset$, we choose $\psi$ that maximizes
-
-$$
+\]
+Denoting $Y_{t-1}=\left\{y_{1}, \ldots, y_{t-1}\right\}$ and $Y_{0}=\emptyset$, we choose $\psi$
+that maximizes
+\[
 L(\psi)=\ln \left(f\left(y_{1}, \ldots, y_{T} ; \psi\right)\right)=\sum_{t=1}^{T} \ln \left(f\left(y_{t} \mid Y_{t-1}\right)\right)
-$$
-
+\]
 For a Gaussian random vector this leads to
-
-$$
+\[
 \ln (f(x))=-\frac{N}{2} \ln (2 \pi)-\frac{1}{2} \ln (|\Sigma|)-\frac{1}{2}(x-\mu)^{\prime} \Sigma^{-1}(x-\mu)
-$$
+\]
 
-Justification of results: The results are justified be the following result about multivariate normal distributions. Let
-
-$$
+\begin{description}
+\item[Justification of results] 
+\end{description}
+ The results are justified be the following result about multivariate normal distributions. Let
+\[
 \binom{X_{1}}{X_{2}} \sim N(\mu, \Sigma)
-$$
-
+\]
 where
-
-$$
+\[
 \mu=\binom{\mu_{1}}{\mu_{2}}, \quad \text { and } \quad \Sigma=\left(\begin{array}{cc}
 \Sigma_{11} & \Sigma_{12} \\
 \Sigma_{21} & \Sigma_{22}
 \end{array}\right) .
-$$
-
+\]
 Then
-
-$$
+\[
 X_{1} \mid X_{2}=x_{2} \sim N\left(\mu_{1}+\Sigma_{12} \Sigma_{22}^{-1}\left(x_{2}-\mu_{2}\right), \Sigma_{11}-\Sigma_{12} \Sigma_{22}^{-1} \Sigma_{12}^{\prime}\right) .
-$$
+\]
