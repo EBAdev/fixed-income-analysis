@@ -11,58 +11,69 @@ separate risk and trade it separately. Enabeling traders to sell unwanted risk o
 diversify the portfolio.
 
 \section{Forward contract}
-A forward contract is a contract, where two a buyer and a seller agree to trade an underlying asset
-in a future period at a price specified at the contracts inception. In order to have a single
-transaction, the price of a forward is such that the value is zero for both parties (Most
-common: Currency forwards, forward rate agreements.)
+A forward contract is an agreement between a buyer and a seller to trade an underlying asset at a
+future date for a price specified at the contract's inception. In order to have a single
+transaction, the price of a forward is such that the value is zero for both parties (Most common:
+Currency forwards, forward rate agreements.)
 
 \subsection{Pricing}
 A forward with maturity $T$ and delivery price $K$ provides a payoff of $P_{T}-K$ at time $T$ and no
 other payments. Here, $P$ is the underlying (typically the price of an asset or a specific interest
-rate). Then the time $t<T$ value of the payoff is
+rate). In an arbitrage free market, there exists an equivalent martingale measure $\Q$ (associated with the money market numeraire), such that the time $t<T$ value of this payoff is:
 \[
 V_{t}=\E_{t}^{\Q}\left[\e^{-\int_{t}^{T} r_{u} \d 
 u}\left(P_{T}-K\right)\right]=\E_{t}^{\Q}\left[\e^{-\int_{t}^{T} r_{u} \d 
 u} P_{T}\right]-K B_{t}^{T}
-\]
-By definition the forward price for immediate delivery is identical to the value of the underlying,
-i.e. $F_{T}^{T}=P_{T}$. The forward price is the value of $K$ that solves $V_{t}=0$, i.e. the
-forward price is
+,\]
+where $B_t^{T}$ denotes the time $t$ price of a zero-coupon bond which pays 1 at maturity $T$. 
+
+For $t \le T$, the forward price is set to the value of $K$ that solves $V_{t}=0$, since this
+implies that neither party must make an upfront payment. Thus,
 \[
 F_{t}^{T}=\frac{\E_{t}^{\Q}\left[\e^{-\int_{t}^{T} r_{u} \d  u} P_{T}\right]}{B_{t}^{T}}
 \]
-Under the risk-neutral measure, the discounted asset price is a martingale. So for an asset with no
-dividends/cashflows before $T$ we have $ F_{t}^{T}=\frac{P_{t}}{B_{t}^{T}}$.
+Under the risk-neutral measure $\Q$, the discounted asset price is a martingale.
+So for an asset with no intermediate income before $T$ we have $F_{t}^{T}=\frac{P_{t}}{B_{t}^{T}}$.
 
 \section{European options}
-European options provide right but not the obligation to trade the underlying asset on expiration
-date for a pre specified (at time $t$) price $K$ (American options can be exercised on any date).
-A Call is the right to buy, and a Put is the right to sell the asset. 
+European options provide the right, but not the obligation to trade the underlying asset on
+expiration date for a pre-specified (at time $t$) price $K$ (American options can be exercised on
+any date). A Call is the right to buy, and a Put is the right to sell the asset.
+
 \subsection{Pricing}
 Consider a call option with expiration date $T$ and strike $K$ on the underlying $P_{t}$. The payoff
 at time $T$ (and hence the call price at $T$) is
 \[
 C_{T}=\max \left\{P_{T}-K, 0\right\}
 \]
-In an arbitrage free market, there exists an equivalent martingale measure $\Q$ so the asset
-price $P_{T}$ is a martingale under the $\Q$. We may use the $T$-forward martingale measure
-$\Q^{T}$, which uses the zero-coupon bond expiring at time $T$, $B_{t}^{T}$, as numeraire. Then, (recall $B_{T}^{T}=1$)
-\[
-  \frac{P_t}{B_t^{T}} = \E_t^{\Q^{T}}[P_T] \iff   P_{t}=B_{t}^{T} \E_{t}^{\Q^{T}}\left[P_{T}\right]
-\]
- Using this measure we can derive a general pricing formula for a European call option:
+Again, in an arbitrage free market, there exists an equivalent martingale measure $\Q$, such that
+the discounted asset prices are martingales. 
+
+Assuming that the underlying and zero-coupon bonds are traded, we may change the $\Q$-measure to the
+$T$-forward martingale measure $\Q^{T}$, which uses $B_t^{T}$ as numeraire.
+Using this measure we can derive a general pricing formula for a European call option:
 \begin{align*}
 C_{t} & =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\max \left\{P_{T}-K, 0\right\}\right] \\
 & =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}}\left(P_{T}-K\right)\right] \\
-& =B_{t}^{T}\left(\E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K \Q^{T}\left[P_{T}>K\right]\right) \\
-& =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K B_{t}^{T} \Q^{T}\left[P_{T}>K\right] \\
-\text{(Change of numeraire)}\quad & =P_{t} \E_{t}^{\Q^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \Q_{t}^{T}\left[P_{T}>K\right] \\
+& =B_{t}^{T}\left(\E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K \Q^{T}_t\left(P_{T}>K\right)\right) \\
+& =B_{t}^{T} \E_{t}^{\Q^{T}}\left[\1_{\left\{P_{T}>K\right\}} P_{T}\right]-K B_{t}^{T} \Q^{T}_t\left(P_{T}>K\right) \\
+\text{(Change of numeraire)}\quad & =\E_{t}^{\Q^{P}}\left[B_{t}^{T}P_T \frac{B_{T}^{T}}{P_T}
+\frac{P_t}{B_{t}^{T}} \1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \Q_{t}^{T}\left(P_{T}>K\right) \\
+\text{(Measurable)}\quad & =P_{t} \E_{t}^{\Q^{P}}\left[\1_{\left\{P_{T}>K\right\}}\right]-K B_{t}^{T} \Q_{t}^{T}\left(P_{T}>K\right) \\
 & =P_{t} \Q_{t}^{P}(P_{T}>K)-K B_{t}^{T} \Q_{t}^{T}(P_{T}>K)
 \end{align*}
-where $\Q^{P}$ is the MG measure using $P_{t}$ as numeraire. The proof is completely
-analogous for European puts, only we use the payoff $\max \{ K - P_t, 0 \}$. Note that the final
-probabilities correspond to the option being in the money under the two different equivalent
-martingale measures. 
+where $\Q^{P}$ is the martingale measure using $P_{t}$ as numeraire, thus we have assumed that $P_t$
+is also traded in the market. The proof is completely analogous for European puts, only we use the
+payoff $\max \{ K - P_T, 0 \}$. Note that the final probabilities correspond to the option being in
+the money under the two different equivalent martingale measures. To compute these probabilities
+further assumptions of the market model is needed, for instance if we set
+\[ 
+\Q^{P}_t (P_T > K) = N(d_1) \quad  \text{ and } \quad 
+\Q^{T}_t (P_T > K) = N(d_2)
+,\]
+where $N(\cdot )$ denotes the standard normal cumulative distribution function. The general
+pricing formula reduces to the Black-Scholes call option price.
+
 
 \section{Relevant results}
 
